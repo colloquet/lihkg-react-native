@@ -8,6 +8,11 @@
   },
   "dependencies": {
     "@rematch/core": "^0.5.3",
+    "autolinker": "^1.6.2",
+    "buffer": "^5.1.0",
+    "events": "^2.0.0",
+    "html-entities": "^1.2.1",
+    "htmlparser2": "^3.9.2",
     "lodash": "^4.17.5",
     "prop-types": "^15.6.1",
     "react": "^16.3.0-alpha.1",
@@ -15,7 +20,8 @@
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.5.7",
     "react-redux": "^5.0.7",
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.2",

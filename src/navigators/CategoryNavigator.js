@@ -10,6 +10,13 @@ const CategoryNavigator = StackNavigator({
   Thread: {
     screen: ThreadScreen,
   },
+}, {
+  cardStyle: {
+    backgroundColor: '#fff',
+  },
+  navigationOptions: {
+    headerBackTitle: null,
+  },
 })
 
 export default CategoryNavigator

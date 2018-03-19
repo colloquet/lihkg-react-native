@@ -1,17 +1,54 @@
+import uniqBy from 'lodash/uniqBy'
 import API from '../api'
 
-const category = {
-  state: {},
+export default {
+  state: {
+    category: {},
+    threadList: [],
+    page: 1,
+  },
+  reducers: {
+    receiveCategory(state, category) {
+      return {
+        ...state,
+        category,
+      }
+    },
+    receiveThreadList(state, threadList) {
+      return {
+        ...state,
+        threadList,
+      }
+    },
+    appendThreadList(state, threadList) {
+      return {
+        ...state,
+        threadList: uniqBy(state.threadList.concat(threadList), 'thread_id'),
+      }
+    },
+    updatePage(state, page) {
+      return {
+        ...state,
+        page,
+      }
+    },
+  },
   effects: {
-    async fetchThreadList() {
+    async fetchThreadList({ catId = 1, page = 1 }) {
+      const append = page !== 1
       try {
-        const data = await API.fetchThreadList({ catId: 1 })
-        console.log(data)
+        const { category, items } = await API.fetchThreadList({ catId, page })
+        if (append) {
+          this.appendThreadList(items)
+        } else {
+          this.receiveThreadList(items)
+        }
+        this.receiveCategory(category)
+        this.updatePage(page)
+        console.log(items)
       } catch (err) {
         console.log(err)
       }
     },
   },
 }
-
-export default category
