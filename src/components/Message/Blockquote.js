@@ -7,15 +7,17 @@ const { width } = Dimensions.get('window')
 function Blockquote({ children, level }) {
   console.log('block')
   return (
-    <View
-      style={{
-        borderLeftColor: '#ddd',
-        borderLeftWidth: 1,
-        paddingLeft: 16,
-        width: width - (16 * 2) - (level * 16),
-      }}
-    >
-      {children}
+    <View style={{ paddingBottom: 16 }}>
+      <View
+        style={{
+          borderLeftColor: '#ddd',
+          borderLeftWidth: 1,
+          paddingLeft: 16,
+          width: width - (16 * 2) - (level * 16),
+        }}
+      >
+        {children}
+      </View>
     </View>
   )
 }
