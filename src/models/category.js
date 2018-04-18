@@ -45,7 +45,6 @@ export default {
         }
         this.receiveCategory(category)
         this.updatePage(page)
-        console.log(items)
       } catch (err) {
         console.log(err)
       }

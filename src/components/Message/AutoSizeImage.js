@@ -52,7 +52,7 @@ class AutoSizeImage extends PureComponent {
     return (
       <Image
         style={{ height: imageHeight, width: imageWidth }}
-        source={{ uri: `https://i.lihkg.com/540/${this.props.source.uri}` }}
+        source={this.props.source}
       />
     )
   }

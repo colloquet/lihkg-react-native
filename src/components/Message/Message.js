@@ -1,7 +1,7 @@
 /* eslint react/no-array-index-key: 0 */
 
 import React, { PureComponent } from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, Linking } from 'react-native'
 import PropTypes from 'prop-types'
 import htmlparser2 from 'htmlparser2'
 
@@ -9,6 +9,10 @@ import Blockquote from './Blockquote'
 import AutoSizeImage from './AutoSizeImage'
 import utils from '../../utils'
 import hkgmoji from '../../hkgmoji'
+
+const BLOCK_TAGS = ['blockquote', 'div']
+
+const TEXT_TAGS = ['span', 'strong', 'sub', 'del', 'ins', 'em', 'br', 'img', 'a']
 
 const baseFontSize = 16
 
@@ -57,165 +61,208 @@ class Message extends PureComponent {
     this.renderHTML(utils.parseMessage(this.props.children))
   }
 
-  prepareDomArray = (dom, level) => {
-    const domArray = []
-    const addInline = (element) => {
-      if (!domArray.length) {
-        domArray.push({
-          type: 'inline',
-          children: [element],
-        })
-        return
-      }
-
-      if (domArray[domArray.length - 1].type === 'inline') {
-        domArray[domArray.length - 1].children.push(element)
-        return
-      }
-
-      domArray.push({
-        type: 'inline',
-        children: [element],
-      })
-    }
-    const addBlock = element => domArray.push(element)
-
-    dom.forEach((node, index) => {
+  mapDomToArray = (dom, level = 0) =>
+    dom.map((node, index) => {
+      // console.log(node)
       if (node.type === 'text') {
-        if (node.data === '\n') {
-          return
+        if (!node.data.trim()) {
+          return null
         }
-        addInline((
-          <Text key={index} style={[level > 0 && { color: '#888' }]}>
+
+        return (
+          <Text key={index}>
             {node.data.trim()}
           </Text>
-        ))
+        )
       }
 
       switch (node.name) {
         case 'br': {
-          if (node.next.type === 'text' && node.next.data.indexOf('\n') !== -1) {
-            break
-          }
-          addInline((
-            <Text key={index}>{'\n'}</Text>
-          ))
-          break
+          // if (node.next.type === 'text' && node.next.data.indexOf('\n') === 1) {
+          //   return null
+          // }
+          return <Text key={index}>{'\n'}</Text>
+          // return null
         }
 
         case 'span': {
           const colorStyle = { color: colorMap[node.attribs.style] }
           const fontSizeStyle = { fontSize: fontSizeMap[node.attribs.style] }
-          addInline((
+          return (
             <Text key={index} style={[colorStyle, fontSizeStyle]}>
-              {this.prepareDomArray(node.children, level)}
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'strong': {
           const style = { fontWeight: 'bold' }
-          addInline((
+          return (
             <Text key={index} style={style}>
-              {this.prepareDomArray(node.children, level)}
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'ins': {
           const style = { textDecorationLine: 'underline' }
-          addInline((
+          return (
             <Text key={index} style={style}>
-              {this.prepareDomArray(node.children, level)}
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'del': {
           const style = { textDecorationLine: 'line-through' }
-          addInline((
+          return (
             <Text key={index} style={style}>
-              {this.prepareDomArray(node.children, level)}
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'em': {
           const style = { fontStyle: 'italic' }
-          addInline((
+          return (
             <Text key={index} style={style}>
-              {this.prepareDomArray(node.children, level)}
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'a': {
-          addInline(<Text key={index}>{this.prepareDomArray(node.children, level)}</Text>)
-          break
-        }
-
-        case 'div': {
-          const style = { textAlign: textAlignMap[node.attribs.style] }
-          addBlock((
-            <Text key={index} style={style}>
-              {this.prepareDomArray(node.children, level)}
+          return (
+            <Text
+              key={index}
+              style={{ color: '#2574a9' }}
+              onPress={() => Linking.openURL(node.attribs.href)}
+            >
+              {this.mapDomToArray(node.children, level)}
             </Text>
-          ))
-          break
+          )
         }
 
         case 'img': {
           if (node.attribs.class === 'hkgmoji') {
-            addInline(<Image key={index} source={hkgmoji[node.attribs.src]} />)
+            return <Image key={index} source={hkgmoji[node.attribs.src]} />
           }
-          addInline((
+          return (
             <AutoSizeImage
               key={index}
               level={level}
               source={{ uri: `https://i.lihkg.com/540/${node.attribs.src}` }}
             />
-          ))
-          break
+          )
+        }
+
+        case 'div': {
+          const style = { textAlign: textAlignMap[node.attribs.style] }
+          return (
+            <Text key={index} style={style}>
+              {this.mapDomToArray(node.children, level)}
+            </Text>
+          )
         }
 
         case 'blockquote': {
           if (level > 2) {
-            break
+            return null
           }
-          addBlock((
-            <Blockquote key={index} level={level}>
-              {this.prepareDomArray(node.children, level + 1)}
-            </Blockquote>
-          ))
-          break
+          return <Blockquote key={index}>{this.mapDomToArray(node.children, level + 1)}</Blockquote>
         }
 
         default:
-          break
+          return null
       }
     })
-    return domArray
+
+  associateRawTexts = (children) => {
+    for (let i = 0; i < children.length; i += 1) {
+      const child = children[i]
+      if (child.wrapper === 'Text' && children.length > 1) {
+        const wrappedTexts = []
+        for (let j = i; j < children.length; j += 1) {
+          const nextSibling = children[j]
+          if (nextSibling.wrapper !== 'Text') {
+            break
+          }
+          wrappedTexts.push(nextSibling)
+          children[j] = false
+        }
+        if (wrappedTexts.length) {
+          children[i] = {
+            attribs: {},
+            children: wrappedTexts,
+            name: 'span',
+            wrapper: 'Text',
+          }
+        }
+      }
+    }
+    return children.filter(parsedNode => parsedNode !== false && parsedNode !== undefined)
   }
 
-  renderNativeElements = array => array.map((element, index) => {
-    if (element.type === 'inline') {
-      return <Text key={index}>{element.children}</Text>
-    }
-    return element
-  })
+  mapDOMNodesTORNElements = (dom) => {
+    const RNElements = dom
+      .map((node) => {
+        if (node.type === 'text') {
+          const strippedData = node.data && node.data.replace(/\s/g, '')
+          if (!strippedData || !strippedData.length) {
+            return false
+          }
+          return {
+            ...node,
+            wrapper: 'Text',
+          }
+        }
+
+        if (node.type === 'tag') {
+          if (node.children) {
+            node.children = this.associateRawTexts(this.mapDOMNodesTORNElements(node.children))
+          }
+
+          if (BLOCK_TAGS.includes(node.name)) {
+            return {
+              ...node,
+              wrapper: 'View',
+            }
+          } else if (TEXT_TAGS.includes(node.name)) {
+            if (node.name === 'img' && node.attribs.class !== 'hkgmoji') {
+              return {
+                ...node,
+                wrapper: 'View',
+              }
+            }
+            return {
+              ...node,
+              wrapper: 'Text',
+            }
+          }
+        }
+
+        // console.log(node)
+        return false
+      })
+      .filter(parsedNode => parsedNode !== false && parsedNode !== undefined)
+
+    return this.associateRawTexts(RNElements)
+  }
 
   renderHTML = (html) => {
     const parser = new htmlparser2.Parser(
-      new htmlparser2.DomHandler((_err, dom) => {
-        const array = this.prepareDomArray(dom, 0)
-        // this.renderNativeElements(array)
-        this.setState({ nativeElements: this.renderNativeElements(array) })
-      }),
+      new htmlparser2.DomHandler(
+        (_err, dom) => {
+          // console.log(dom)
+          const RNElements = this.mapDOMNodesTORNElements(dom)
+          // console.log(RNElements)
+          // const preparedArray = this.prepareDomArray(array)
+          // console.log(preparedArray)
+          // const nativeElements = this.renderNativeComponents(preparedArray)
+          this.setState({ nativeElements: this.mapDomToArray(RNElements) })
+        },
+        { normalizeWhitespace: true },
+      ),
       { decodeEntities: true },
     )
     parser.write(html)

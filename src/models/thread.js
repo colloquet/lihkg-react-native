@@ -8,16 +8,16 @@ export default {
     receiveThread(state, thread) {
       return {
         ...state,
-        thread,
-      }
-    },
-    appendThread(state, thread) {
-      return {
-        ...state,
         thread: {
           ...thread,
-          item_data: state.thread.item_data.concat(thread.item_data),
+          item_data: (state.thread.item_data || []).concat(thread.item_data),
         },
+      }
+    },
+    clearThread(state) {
+      return {
+        ...state,
+        thread: {},
       }
     },
   },

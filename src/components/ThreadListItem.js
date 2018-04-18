@@ -18,29 +18,32 @@ class ThreadListItem extends PureComponent {
   render() {
     const { thread } = this.props
     return (
-      <TouchableHighlight
-        underlayColor="#f5f5f5"
-        style={styles.container}
-        onPress={this.onPress}
-      >
-        <Fragment>
-          <View style={styles.meta}>
-            <Text
-              style={[styles.data, { color: utils.getGenderColor(thread.user) }]}
-            >
-              {thread.user_nickname}
-            </Text>
-            <Text style={styles.data}>{utils.getRelativeTime(thread.last_reply_time)}</Text>
-            <Text style={styles.data}><Icon name="thumbs-up" /> {thread.like_count - thread.dislike_count}</Text>
-            <Text style={styles.data}><Icon name="message-square" /> {thread.no_of_reply}</Text>
+      <Fragment>
+        <TouchableHighlight
+          underlayColor="#f5f5f5"
+          style={styles.container}
+          onPress={this.onPress}
+        >
+          <Fragment>
+            <View style={styles.meta}>
+              <Text
+                style={[styles.data, { color: utils.getGenderColor(thread.user) }]}
+              >
+                {thread.user_nickname}
+              </Text>
+              <Text style={styles.data}>{utils.getRelativeTime(thread.last_reply_time)}</Text>
+              <Text style={styles.data}><Icon name="thumbs-up" /> {thread.like_count - thread.dislike_count}</Text>
+              <Text style={styles.data}><Icon name="message-square" /> {thread.no_of_reply}</Text>
 
-            <View style={styles.category}>
-              <Text style={styles.categoryName}>{thread.category.name}</Text>
+              <View style={styles.category}>
+                <Text style={styles.categoryName}>{thread.category.name}</Text>
+              </View>
             </View>
-          </View>
-          <Text style={styles.title}>{thread.title}</Text>
-        </Fragment>
-      </TouchableHighlight>
+            <Text style={styles.title}>{thread.title}</Text>
+          </Fragment>
+        </TouchableHighlight>
+        <View style={styles.separator} />
+      </Fragment>
     )
   }
 }
@@ -49,6 +52,9 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     paddingLeft: 24,
+  },
+  separator: {
+    marginLeft: 24,
     borderBottomColor: '#e6e6e6',
     borderBottomWidth: 1,
   },

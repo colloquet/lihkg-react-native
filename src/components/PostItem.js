@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
 
 import Message from './Message/Message'
+import Quote from './Quote'
 import utils from '../utils'
 
 class PostItem extends PureComponent {
@@ -27,6 +28,7 @@ class PostItem extends PureComponent {
             <Text style={styles.data}>{utils.getRelativeTime(post.reply_time)}</Text>
           </View>
 
+          { post.quote && <Quote quote={post.quote} /> }
           <Message>{post.msg}</Message>
 
           <View style={styles.scoresContainer}>
@@ -54,10 +56,12 @@ class PostItem extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#fff',
     paddingHorizontal: 16,
     paddingVertical: 24,
-    borderBottomColor: '#e6e6e6',
-    borderBottomWidth: 1,
+    marginVertical: 4,
+    // borderBottomColor: '#e6e6e6',
+    // borderBottomWidth: 1,
   },
   meta: {
     flexDirection: 'row',

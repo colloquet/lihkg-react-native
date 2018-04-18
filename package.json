@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@rematch/core": "^0.5.3",
+    "@rematch/core": "^0.6.0",
     "autolinker": "^1.6.2",
     "buffer": "^5.1.0",
     "events": "^2.0.0",
@@ -17,8 +17,9 @@
     "prop-types": "^15.6.1",
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.2",
+    "react-native-render-html": "^3.9.3",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "^1.5.7",
+    "react-navigation": "^1.5.11",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "stream": "^0.0.2"
@@ -27,12 +28,12 @@
     "babel-eslint": "^8.2.2",
     "babel-jest": "23.0.0-alpha.0",
     "babel-preset-react-native": "4.0.0",
-    "eslint": "^4.19.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-import": "^2.10.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
-    "jest": "22.4.2",
+    "jest": "22.4.3",
     "react-test-renderer": "^16.3.0-alpha.1"
   },
   "jest": {
