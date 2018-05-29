@@ -44,6 +44,7 @@ class ThreadScreen extends PureComponent {
   }
 
   onLoadMore = () => {
+    // TODO: prevent infinite loop
     this.fetchThread(this.state.page + 1)
   }
 
@@ -89,7 +90,7 @@ class ThreadScreen extends PureComponent {
       </View>
     ) : (
       <FlatList
-        style={{ backgroundColor: '#f5f7f9' }}
+        style={{ backgroundColor: '#f5f5f5' }}
         data={thread.item_data}
         renderItem={this.renderPostItem}
         keyExtractor={post => post.post_id}

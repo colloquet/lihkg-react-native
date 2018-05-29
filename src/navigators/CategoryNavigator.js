@@ -1,9 +1,13 @@
-import { StackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 
+import CategoryListScreen from '../screens/Category/CategoryListScreen'
 import CategoryScreen from '../screens/Category/CategoryScreen'
 import ThreadScreen from '../screens/Category/ThreadScreen'
 
-const CategoryNavigator = StackNavigator({
+const CategoryNavigator = createStackNavigator({
+  CategoryList: {
+    screen: CategoryListScreen,
+  },
   Category: {
     screen: CategoryScreen,
   },

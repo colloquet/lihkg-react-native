@@ -32,6 +32,12 @@ export default {
         page,
       }
     },
+    clearThreadList(state) {
+      return {
+        ...state,
+        threadList: [],
+      }
+    },
   },
   effects: {
     async fetchThreadList({ catId = 1, page = 1 }) {

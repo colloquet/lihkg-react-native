@@ -1,8 +1,8 @@
-import { StackNavigator } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 
 import SettingsScreen from '../screens/Settings/SettingsScreen'
 
-const SettingsNavigator = StackNavigator({
+const SettingsNavigator = createStackNavigator({
   Settings: {
     screen: SettingsScreen,
   },

@@ -46,7 +46,8 @@ class AutoSizeImage extends PureComponent {
 
     const sidePaddings = 16 * 2
     const quotePaddings = (16 + 1) * this.props.level
-    const imageWidth = window.width - sidePaddings - quotePaddings
+    const maxWidth = window.width - sidePaddings - quotePaddings
+    const imageWidth = Math.min(width, maxWidth)
     const ratio = imageWidth / width
     const imageHeight = ratio * height
     return (

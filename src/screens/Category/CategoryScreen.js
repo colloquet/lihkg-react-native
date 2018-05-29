@@ -14,6 +14,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   fetchThreadList: dispatch.category.fetchThreadList,
+  clearThreadList: dispatch.category.clearThreadList,
 })
 
 class CategoryScreen extends PureComponent {
@@ -38,13 +39,8 @@ class CategoryScreen extends PureComponent {
   }
 
   componentDidMount() {
+    this.props.clearThreadList()
     this.fetchThreadList(1)
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.category.name !== this.props.category.name) {
-      this.props.navigation.setParams({ title: this.props.category.name })
-    }
   }
 
   onThreadListItemPress = thread => this.props.navigation.navigate('Thread', { thread })
@@ -65,6 +61,7 @@ class CategoryScreen extends PureComponent {
     const catId = get(this.props.navigation, 'state.params.catId', 1)
     this.setState({ isLoading: true, isRefreshing: page === 1 })
     await this.props.fetchThreadList({ catId, page })
+    this.props.navigation.setParams({ title: this.props.category.name })
     this.setState({ isLoading: false, isRefreshing: false })
   }
 
@@ -95,6 +92,7 @@ class CategoryScreen extends PureComponent {
         keyExtractor={thread => thread.thread_id}
         onRefresh={this.onRefresh}
         refreshing={isRefreshing}
+        extraData={this.state}
         ListFooterComponent={this.renderListFooter}
         onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.2}
