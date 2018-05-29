@@ -62,9 +62,7 @@ class AutoSizeImage extends PureComponent {
   render() {
     const { isLoading } = this.state
     return isLoading ? (
-      <View>
-        <ActivityIndicator size="small" />
-      </View>
+      <ActivityIndicator size="small" />
     ) : (
       this.renderImage()
     )

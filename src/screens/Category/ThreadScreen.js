@@ -44,7 +44,6 @@ class ThreadScreen extends PureComponent {
   }
 
   onLoadMore = () => {
-    // TODO: prevent infinite loop
     if (this.state.page < this.props.thread.total_page) {
       this.fetchThread(this.state.page + 1)
     }
@@ -54,7 +53,7 @@ class ThreadScreen extends PureComponent {
     if (this.state.isLoading) {
       return
     }
-    // const threadId = 661373
+    // const threadId = 672121
     const threadId = this.props.navigation.state.params.thread.thread_id
     this.setState({ isLoading: true })
     await this.props.fetchThread({ threadId, page })
@@ -100,10 +99,10 @@ class ThreadScreen extends PureComponent {
         ListFooterComponent={this.renderListFooter}
         onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.2}
-        disableVirtualization
+        // disableVirtualization
         removeClippedSubviews
-        initialNumToRender={25}
-        maxToRenderPerBatch={25}
+        // initialNumToRender={25}
+        // maxToRenderPerBatch={25}
       />
     )
   }

@@ -1,9 +1,10 @@
 /* eslint react/no-array-index-key: 0 */
 
 import React, { PureComponent } from 'react'
-import { View, Text, Image, Linking } from 'react-native'
+import { View, Text, Linking } from 'react-native'
 import PropTypes from 'prop-types'
 import htmlparser2 from 'htmlparser2'
+import FastImage from 'react-native-fast-image'
 
 import Blockquote from './Blockquote'
 import AutoSizeImage from './AutoSizeImage'
@@ -167,7 +168,7 @@ class Message extends PureComponent {
 
         case 'img': {
           if (node.attribs.class === 'hkgmoji') {
-            return <Image key={index} source={hkgmoji[node.attribs.src]} />
+            return <FastImage key={index} source={hkgmoji[node.attribs.src]} />
           }
           return (
             <AutoSizeImage

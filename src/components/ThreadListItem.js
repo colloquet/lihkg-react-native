@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
+    lineHeight: 16 * 1.2,
   },
   category: {
     backgroundColor: '#f5f6f7',
