@@ -10,26 +10,23 @@ const AppNavigator = createMaterialBottomTabNavigator({
     screen: CategoryNavigator,
     navigationOptions: {
       tabBarLabel: '主頁',
-      tabBarIcon: ({ tintColor }) => <Icon name="home" size={25} color={tintColor} />,
+      tabBarIcon: ({ tintColor }) => <Icon name="home" size={24} color={tintColor} />,
+      tabBarColor: '#fff',
     },
   },
   Settings: {
     screen: SettingsNavigator,
     navigationOptions: {
       tabBarLabel: '設定',
-      tabBarIcon: ({ tintColor }) => <Icon name="settings" size={25} color={tintColor} />,
+      tabBarIcon: ({ tintColor }) => <Icon name="settings" size={24} color={tintColor} />,
+      tabBarColor: '#fff',
     },
   },
 }, {
   shifting: true,
   initialRouteName: 'Home',
-  activeTintColor: '#F44336',
-  labelStyle: {
-    fontSize: 12,
-  },
-  style: {
-    backgroundColor: 'blue',
-  },
+  activeTintColor: '#000',
+  inactiveTintColor: '#999',
 })
 
 export default AppNavigator

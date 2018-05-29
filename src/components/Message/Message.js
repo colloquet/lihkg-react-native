@@ -10,11 +10,11 @@ import AutoSizeImage from './AutoSizeImage'
 import utils from '../../utils'
 import hkgmoji from '../../hkgmoji'
 
-const BLOCK_TAGS = ['blockquote', 'div']
+const BLOCK_TAGS = ['blockquote', 'div', 'pre']
 
-const TEXT_TAGS = ['span', 'strong', 'sub', 'del', 'ins', 'em', 'br', 'img', 'a']
+const TEXT_TAGS = ['span', 'strong', 'sub', 'del', 'ins', 'em', 'br', 'img', 'a', 'code']
 
-const baseFontSize = 16
+const BASE_FONT_SIZE = 16
 
 const colorMap = {
   'color: black;': 'black',
@@ -34,12 +34,12 @@ const colorMap = {
 }
 
 const fontSizeMap = {
-  'font-size: xx-large;': baseFontSize + 5,
-  'font-size: x-large;': baseFontSize + 4,
-  'font-size: large;': baseFontSize + 3,
-  'font-size: medium;': baseFontSize + 2,
-  'font-size: small;': baseFontSize - 2,
-  'font-size: x-small;': baseFontSize - 3,
+  'font-size: xx-large;': BASE_FONT_SIZE + 5,
+  'font-size: x-large;': BASE_FONT_SIZE + 4,
+  'font-size: large;': BASE_FONT_SIZE + 3,
+  'font-size: medium;': BASE_FONT_SIZE + 2,
+  'font-size: small;': BASE_FONT_SIZE - 2,
+  'font-size: x-small;': BASE_FONT_SIZE - 3,
 }
 
 const textAlignMap = {
@@ -63,14 +63,13 @@ class Message extends PureComponent {
 
   mapDomToArray = (dom, level = 0) =>
     dom.map((node, index) => {
-      // console.log(node)
       if (node.type === 'text') {
         if (!node.data.trim()) {
           return null
         }
 
         return (
-          <Text key={index}>
+          <Text key={index} style={{ fontSize: BASE_FONT_SIZE }}>
             {node.data.trim()}
           </Text>
         )
@@ -90,6 +89,24 @@ class Message extends PureComponent {
           const fontSizeStyle = { fontSize: fontSizeMap[node.attribs.style] }
           return (
             <Text key={index} style={[colorStyle, fontSizeStyle]}>
+              {this.mapDomToArray(node.children, level)}
+            </Text>
+          )
+        }
+
+        case 'pre': {
+          const preStyle = { backgroundColor: '#f5f5f5', padding: 16 }
+          return (
+            <View key={index} style={[preStyle]}>
+              {this.mapDomToArray(node.children, level)}
+            </View>
+          )
+        }
+
+        case 'code': {
+          const codeStyle = { backgroundColor: '#f5f5f5', padding: 4 }
+          return (
+            <Text key={index} style={[codeStyle]}>
               {this.mapDomToArray(node.children, level)}
             </Text>
           )
@@ -241,7 +258,6 @@ class Message extends PureComponent {
           }
         }
 
-        // console.log(node)
         return false
       })
       .filter(parsedNode => parsedNode !== false && parsedNode !== undefined)
@@ -253,12 +269,7 @@ class Message extends PureComponent {
     const parser = new htmlparser2.Parser(
       new htmlparser2.DomHandler(
         (_err, dom) => {
-          // console.log(dom)
           const RNElements = this.mapDOMNodesTORNElements(dom)
-          // console.log(RNElements)
-          // const preparedArray = this.prepareDomArray(array)
-          // console.log(preparedArray)
-          // const nativeElements = this.renderNativeComponents(preparedArray)
           this.setState({ nativeElements: this.mapDomToArray(RNElements) })
         },
         { normalizeWhitespace: true },
