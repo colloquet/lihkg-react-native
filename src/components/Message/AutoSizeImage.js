@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import { View, ActivityIndicator, Image, Dimensions, StyleSheet } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
 
 const window = Dimensions.get('window')
@@ -45,13 +46,13 @@ class AutoSizeImage extends PureComponent {
     }
 
     const sidePaddings = 16 * 2
-    const quotePaddings = (16 + 1) * this.props.level
+    const quotePaddings = (12 + 1) * this.props.level
     const maxWidth = window.width - sidePaddings - quotePaddings
     const imageWidth = Math.min(width, maxWidth)
     const ratio = imageWidth / width
     const imageHeight = ratio * height
     return (
-      <Image
+      <FastImage
         style={{ height: imageHeight, width: imageWidth }}
         source={this.props.source}
       />

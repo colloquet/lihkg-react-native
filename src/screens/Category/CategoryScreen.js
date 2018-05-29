@@ -10,6 +10,7 @@ const mapState = state => ({
   category: state.category.category,
   threadList: state.category.threadList,
   page: state.category.page,
+  hasMore: state.category.hasMore,
 })
 
 const mapDispatch = dispatch => ({
@@ -28,9 +29,11 @@ class CategoryScreen extends PureComponent {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     fetchThreadList: PropTypes.func.isRequired,
+    clearThreadList: PropTypes.func.isRequired,
     threadList: PropTypes.array.isRequired,
     category: PropTypes.object.isRequired,
     page: PropTypes.number.isRequired,
+    hasMore: PropTypes.bool.isRequired,
   }
 
   state = {
@@ -50,7 +53,9 @@ class CategoryScreen extends PureComponent {
   }
 
   onLoadMore = () => {
-    this.fetchThreadList(this.props.page + 1)
+    if (this.props.hasMore) {
+      this.fetchThreadList(this.props.page + 1)
+    }
   }
 
   fetchThreadList = async (page) => {

@@ -45,14 +45,16 @@ class ThreadScreen extends PureComponent {
 
   onLoadMore = () => {
     // TODO: prevent infinite loop
-    this.fetchThread(this.state.page + 1)
+    if (this.state.page < this.props.thread.total_page) {
+      this.fetchThread(this.state.page + 1)
+    }
   }
 
   fetchThread = async (page = 1) => {
     if (this.state.isLoading) {
       return
     }
-    // const threadId = 411931
+    // const threadId = 661373
     const threadId = this.props.navigation.state.params.thread.thread_id
     this.setState({ isLoading: true })
     await this.props.fetchThread({ threadId, page })
@@ -93,6 +95,7 @@ class ThreadScreen extends PureComponent {
         style={{ backgroundColor: '#f5f5f5' }}
         data={thread.item_data}
         renderItem={this.renderPostItem}
+        extraData={this.state}
         keyExtractor={post => post.post_id}
         ListFooterComponent={this.renderListFooter}
         onEndReached={this.onLoadMore}

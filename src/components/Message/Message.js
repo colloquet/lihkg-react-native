@@ -51,6 +51,11 @@ const textAlignMap = {
 class Message extends PureComponent {
   static propTypes = {
     children: PropTypes.string.isRequired,
+    level: PropTypes.number,
+  }
+
+  static defaultProps = {
+    level: 0,
   }
 
   state = {
@@ -95,11 +100,11 @@ class Message extends PureComponent {
         }
 
         case 'pre': {
-          const preStyle = { backgroundColor: '#f5f5f5', padding: 16 }
+          const preStyle = { backgroundColor: '#f5f5f5', padding: 8 }
           return (
-            <View key={index} style={[preStyle]}>
+            <Text key={index} style={[preStyle]}>
               {this.mapDomToArray(node.children, level)}
-            </View>
+            </Text>
           )
         }
 
@@ -270,7 +275,7 @@ class Message extends PureComponent {
       new htmlparser2.DomHandler(
         (_err, dom) => {
           const RNElements = this.mapDOMNodesTORNElements(dom)
-          this.setState({ nativeElements: this.mapDomToArray(RNElements) })
+          this.setState({ nativeElements: this.mapDomToArray(RNElements, this.props.level) })
         },
         { normalizeWhitespace: true },
       ),

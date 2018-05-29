@@ -1,4 +1,6 @@
 import uniqBy from 'lodash/uniqBy'
+import get from 'lodash/get'
+
 import API from '../api'
 
 export default {
@@ -6,6 +8,7 @@ export default {
     category: {},
     threadList: [],
     page: 1,
+    hasMore: true,
   },
   reducers: {
     receiveCategory(state, category) {
@@ -32,6 +35,12 @@ export default {
         page,
       }
     },
+    updateHasMore(state, hasMore) {
+      return {
+        ...state,
+        hasMore,
+      }
+    },
     clearThreadList(state) {
       return {
         ...state,
@@ -51,7 +60,11 @@ export default {
         }
         this.receiveCategory(category)
         this.updatePage(page)
+        this.updateHasMore(true)
       } catch (err) {
+        if (Number(get(err, 'error_code')) === 100) {
+          this.updateHasMore(false)
+        }
         console.log(err)
       }
     },
