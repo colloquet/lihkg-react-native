@@ -19,7 +19,7 @@ class CategoryListItem extends PureComponent {
     return (
       <Fragment>
         <TouchableHighlight
-          underlayColor="#f5f5f5"
+          underlayColor="#1d1d1d"
           style={styles.container}
           onPress={this.onPress}
         >
@@ -40,11 +40,12 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginLeft: 16,
-    borderBottomColor: '#e6e6e6',
+    borderBottomColor: '#333',
     borderBottomWidth: 1,
   },
   name: {
     fontSize: 16,
+    color: '#fffc',
   },
 })
 

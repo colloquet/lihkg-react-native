@@ -65,8 +65,8 @@ class ThreadScreen extends PureComponent {
     return (
       <React.Fragment>
         {index % 25 === 0 && (
-          <View style={styles.pageNumber}>
-            <Text>第 {(index / 25) + 1} 頁</Text>
+          <View style={styles.pageNumberContainer}>
+            <Text style={styles.pageNumber}>第 {(index / 25) + 1} 頁</Text>
           </View>
         )}
         <PostItem post={post} isAuthor={+this.props.thread.user_id === +post.user.user_id} />
@@ -91,7 +91,7 @@ class ThreadScreen extends PureComponent {
       </View>
     ) : (
       <FlatList
-        style={{ backgroundColor: '#f5f5f5' }}
+        style={{ backgroundColor: '#222' }}
         data={thread.item_data}
         renderItem={this.renderPostItem}
         extraData={this.state}
@@ -99,20 +99,23 @@ class ThreadScreen extends PureComponent {
         ListFooterComponent={this.renderListFooter}
         onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.2}
-        // disableVirtualization
+        disableVirtualization
         removeClippedSubviews
-        // initialNumToRender={25}
-        // maxToRenderPerBatch={25}
+        initialNumToRender={25}
+        maxToRenderPerBatch={25}
       />
     )
   }
 }
 
 const styles = StyleSheet.create({
-  pageNumber: {
+  pageNumberContainer: {
     flex: 1,
     alignItems: 'center',
     marginVertical: 16,
+  },
+  pageNumber: {
+    color: '#fffc',
   },
 })
 

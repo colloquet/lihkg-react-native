@@ -75,7 +75,7 @@ class Message extends PureComponent {
         }
 
         return (
-          <Text key={index} style={{ fontSize: BASE_FONT_SIZE }}>
+          <Text key={index} style={{ fontSize: BASE_FONT_SIZE, color: '#fffc' }}>
             {node.data.trim()}
           </Text>
         )
@@ -101,7 +101,7 @@ class Message extends PureComponent {
         }
 
         case 'pre': {
-          const preStyle = { backgroundColor: '#f5f5f5', padding: 8 }
+          const preStyle = { backgroundColor: '#2b2b2b', padding: 8 }
           return (
             <Text key={index} style={[preStyle]}>
               {this.mapDomToArray(node.children, level)}
@@ -110,7 +110,7 @@ class Message extends PureComponent {
         }
 
         case 'code': {
-          const codeStyle = { backgroundColor: '#f5f5f5', padding: 4 }
+          const codeStyle = { backgroundColor: '#2b2b2b', padding: 4 }
           return (
             <Text key={index} style={[codeStyle]}>
               {this.mapDomToArray(node.children, level)}
@@ -158,10 +158,12 @@ class Message extends PureComponent {
           return (
             <Text
               key={index}
-              style={{ color: '#2574a9' }}
+              style={{ color: '#2574a9', textDecorationLine: 'underline' }}
               onPress={() => Linking.openURL(node.attribs.href)}
             >
-              {this.mapDomToArray(node.children, level)}
+              <Text style={{ fontSize: BASE_FONT_SIZE }}>
+                {node.children[0].data.trim()}
+              </Text>
             </Text>
           )
         }

@@ -7,7 +7,7 @@ function Blockquote({ children }) {
     <View style={{ paddingBottom: 16 }}>
       <View
         style={{
-          borderLeftColor: '#ddd',
+          borderLeftColor: '#444',
           borderLeftWidth: 1,
           paddingLeft: 12,
         }}

@@ -20,7 +20,7 @@ class ThreadListItem extends PureComponent {
     return (
       <Fragment>
         <TouchableHighlight
-          underlayColor="#f5f5f5"
+          underlayColor="#1d1d1d"
           style={styles.container}
           onPress={this.onPress}
         >
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginLeft: 24,
-    borderBottomColor: '#e6e6e6',
+    borderBottomColor: '#333',
     borderBottomWidth: 1,
   },
   meta: {
@@ -71,9 +71,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     lineHeight: 16 * 1.2,
+    color: '#fffc',
   },
   category: {
-    backgroundColor: '#f5f6f7',
+    backgroundColor: '#333',
     borderRadius: 10,
     marginLeft: 'auto',
     paddingHorizontal: 8,

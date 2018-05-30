@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, SectionList, ActivityIndicator } from 'react-native'
+import { View, Text, SectionList, ActivityIndicator, StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -41,8 +41,8 @@ class CategoryListScreen extends React.Component {
 
   renderSectionHeader = ({ section: { name } }) =>
     name && (
-      <View style={{ backgroundColor: '#f5f7f9', paddingVertical: 8, paddingHorizontal: 16 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 12 }}>{name}</Text>
+      <View style={styles.section}>
+        <Text style={styles.sectionName}>{name}</Text>
       </View>
     )
 
@@ -63,5 +63,18 @@ class CategoryListScreen extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  section: {
+    backgroundColor: '#1d1d1d',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
+  sectionName: {
+    fontWeight: 'bold',
+    fontSize: 12,
+    color: '#fffc',
+  },
+})
 
 export default connect(mapState, mapDispatch)(CategoryListScreen)

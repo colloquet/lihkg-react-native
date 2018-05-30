@@ -56,7 +56,7 @@ class PostItem extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1e1e1e',
     paddingHorizontal: 16,
     paddingVertical: 24,
     marginVertical: 4,
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   scores: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#2b2b2b',
     borderRadius: 4,
     paddingHorizontal: 8,
     paddingVertical: 4,
