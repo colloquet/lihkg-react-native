@@ -2,8 +2,6 @@
 
 > LIHKG mobile client built with React Native
 
-[Live Demo](https://lihkg.colloque.io/)
-
 ## Build Setup
 
 ``` bash
