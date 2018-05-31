@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
-import { View, FlatList, ActivityIndicator } from 'react-native'
+import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 
-import ThreadListItem from '../../components/ThreadListItem'
+import ThreadListItemContainer from '../../containers/ThreadListItemContainer'
 
 const mapState = state => ({
   category: state.category.category,
@@ -46,8 +46,6 @@ class CategoryScreen extends PureComponent {
     this.fetchThreadList(1)
   }
 
-  onThreadListItemPress = thread => this.props.navigation.navigate('Thread', { thread })
-
   onRefresh = () => {
     this.fetchThreadList(1)
   }
@@ -71,7 +69,7 @@ class CategoryScreen extends PureComponent {
   }
 
   renderThreadListItem = ({ item: thread }) => (
-    <ThreadListItem thread={thread} onPress={this.onThreadListItemPress} />
+    <ThreadListItemContainer thread={thread} />
   )
 
   renderListFooter = () =>
@@ -81,6 +79,10 @@ class CategoryScreen extends PureComponent {
         <ActivityIndicator size="small" />
       </View>
     )
+
+  renderSeparator = () => (
+    <View style={styles.separator} />
+  )
 
   render() {
     const { isLoading, isRefreshing } = this.state
@@ -99,11 +101,20 @@ class CategoryScreen extends PureComponent {
         refreshing={isRefreshing}
         extraData={this.state}
         ListFooterComponent={this.renderListFooter}
+        ItemSeparatorComponent={this.renderSeparator}
         onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.2}
       />
     )
   }
 }
+
+const styles = StyleSheet.create({
+  separator: {
+    marginLeft: 24,
+    borderBottomColor: '#333',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+})
 
 export default connect(mapState, mapDispatch)(CategoryScreen)

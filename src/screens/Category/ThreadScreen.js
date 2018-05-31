@@ -44,9 +44,14 @@ class ThreadScreen extends PureComponent {
   }
 
   onLoadMore = () => {
+    if (this.state.isLoading || !this.canFetchMore) {
+      return
+    }
+
     if (this.state.page < this.props.thread.total_page) {
       this.fetchThread(this.state.page + 1)
     }
+    this.canFetchMore = false
   }
 
   fetchThread = async (page = 1) => {
@@ -98,11 +103,15 @@ class ThreadScreen extends PureComponent {
         keyExtractor={post => post.post_id}
         ListFooterComponent={this.renderListFooter}
         onEndReached={this.onLoadMore}
-        onEndReachedThreshold={0.2}
+        onEndReachedThreshold={0.1}
         disableVirtualization
         removeClippedSubviews
         initialNumToRender={25}
         maxToRenderPerBatch={25}
+        onMomentumScrollBegin={() => {
+          console.log('momentum')
+          this.canFetchMore = true
+        }}
       />
     )
   }

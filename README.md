@@ -24,6 +24,7 @@ react-native run-android
 - Toggle dark mode
 - 熱門 indicator
 - F5 in thread
+- Jump to page
 - Read history
 - Story mode
 - Image mode

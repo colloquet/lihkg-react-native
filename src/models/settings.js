@@ -3,10 +3,10 @@ export default {
     darkMode: false,
   },
   reducers: {
-    toggleDarkMode(state) {
+    toggleSettings(state, key) {
       return {
         ...state,
-        darkMode: !state.darkMode,
+        [key]: !state[key],
       }
     },
   },

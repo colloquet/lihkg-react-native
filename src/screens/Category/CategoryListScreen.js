@@ -30,12 +30,11 @@ class CategoryListScreen extends React.Component {
     this.props.navigation.navigate('Category', { catId: 1 })
   }
 
-  renderCategoryListItem = ({ item: category, index, section }) => (
+  renderCategoryListItem = ({ item: category, index }) => (
     <CategoryListItem
       key={index}
       category={category}
       onPress={() => this.props.navigation.navigate('Category', { catId: category.cat_id })}
-      isLastItem={index + 1 === section.data.length}
     />
   )
 
@@ -46,6 +45,10 @@ class CategoryListScreen extends React.Component {
       </View>
     )
 
+  renderSeparator = () => (
+    <View style={styles.separator} />
+  )
+
   render() {
     const { categoryList } = this.props
 
@@ -55,6 +58,7 @@ class CategoryListScreen extends React.Component {
         renderSectionHeader={this.renderSectionHeader}
         sections={categoryList}
         keyExtractor={item => item.cat_id}
+        ItemSeparatorComponent={this.renderSeparator}
       />
     ) : (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -66,7 +70,7 @@ class CategoryListScreen extends React.Component {
 
 const styles = StyleSheet.create({
   section: {
-    backgroundColor: '#1d1d1d',
+    backgroundColor: '#2b2b2b',
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
@@ -74,6 +78,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
     color: '#fffc',
+  },
+  separator: {
+    marginLeft: 16,
+    borderBottomColor: '#333',
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 })
 

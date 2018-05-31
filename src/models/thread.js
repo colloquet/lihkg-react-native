@@ -1,3 +1,4 @@
+import { dispatch } from '@rematch/core'
 import API from '../api'
 
 export default {
@@ -26,6 +27,12 @@ export default {
       try {
         const thread = await API.fetchThread({ threadId, page, order })
         this.receiveThread(thread)
+        dispatch.app.updateHistory({
+          threadId: thread.thread_id,
+          replies: thread.no_of_reply,
+          page,
+        })
+        dispatch.app.syncHistory()
         console.log(thread)
       } catch (err) {
         console.log(err)

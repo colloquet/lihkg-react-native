@@ -7,7 +7,6 @@ class CategoryListItem extends PureComponent {
   static propTypes = {
     category: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,
-    isLastItem: PropTypes.bool.isRequired,
   }
 
   onPress = () => {
@@ -15,21 +14,18 @@ class CategoryListItem extends PureComponent {
   }
 
   render() {
-    const { category, isLastItem } = this.props
+    const { category } = this.props
     return (
-      <Fragment>
-        <TouchableHighlight
-          underlayColor="#1d1d1d"
-          style={styles.container}
-          onPress={this.onPress}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={styles.name}>{category.name}</Text>
-            <Icon name="chevron-right" size={18} color="#999" />
-          </View>
-        </TouchableHighlight>
-        {isLastItem || <View style={styles.separator} />}
-      </Fragment>
+      <TouchableHighlight
+        underlayColor="#1d1d1d"
+        style={styles.container}
+        onPress={this.onPress}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={styles.name}>{category.name}</Text>
+          <Icon name="chevron-right" size={18} color="#999" />
+        </View>
+      </TouchableHighlight>
     )
   }
 }
@@ -37,11 +33,6 @@ class CategoryListItem extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-  },
-  separator: {
-    marginLeft: 16,
-    borderBottomColor: '#333',
-    borderBottomWidth: 1,
   },
   name: {
     fontSize: 16,
