@@ -58,6 +58,7 @@ class Message extends PureComponent {
   static propTypes = {
     children: PropTypes.string.isRequired,
     level: PropTypes.number,
+    staticIcons: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
