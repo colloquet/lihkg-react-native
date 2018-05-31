@@ -21,6 +21,7 @@
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.0.4",
     "react-navigation-material-bottom-tabs": "^0.2.0",
+    "react-navigation-tabs": "^0.3.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "stream": "^0.0.2"

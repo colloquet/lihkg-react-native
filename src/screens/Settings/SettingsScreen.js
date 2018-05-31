@@ -12,8 +12,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 const mapState = state => ({
-  darkMode: state.settings.darkMode,
-  staticIcons: state.settings.staticIcons,
+  settings: state.settings,
 })
 
 const mapDispatch = dispatch => ({
@@ -27,8 +26,7 @@ class SettingsScreen extends React.Component {
   }
 
   static propTypes = {
-    darkMode: PropTypes.bool.isRequired,
-    staticIcons: PropTypes.bool.isRequired,
+    settings: PropTypes.object.isRequired,
     clearHistory: PropTypes.func.isRequired,
     toggleSettings: PropTypes.func.isRequired,
   }
@@ -50,7 +48,7 @@ class SettingsScreen extends React.Component {
       <Switch
         // tintColor="#42b983"
         onTintColor="#42b983"
-        value={this.props[item.key]}
+        value={this.props.settings[item.key]}
         onValueChange={() => this.props.toggleSettings(item.key)}
         style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
       />
@@ -85,7 +83,7 @@ class SettingsScreen extends React.Component {
             name: '內文',
             data: [
               { name: '自動載入圖片', key: 'autoLoadImage' },
-              { name: 'Youtube 預覽', key: 'ytPreview' },
+              // { name: 'Youtube 預覽', key: 'ytPreview' },
               { name: '靜態表情', key: 'staticIcons' },
             ],
           },

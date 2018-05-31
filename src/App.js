@@ -8,6 +8,8 @@ import PropTypes from 'prop-types'
 import CategoryNavigator from './navigators/CategoryNavigator'
 import SettingsNavigator from './navigators/SettingsNavigator'
 
+import BottomTabBarContainer from './containers/BottomTabBarContainer'
+
 const AppNavigator = createBottomTabNavigator({
   Home: {
     screen: CategoryNavigator,
@@ -24,13 +26,7 @@ const AppNavigator = createBottomTabNavigator({
     },
   },
 }, {
-  tabBarOptions: {
-    activeTintColor: '#42b983',
-    inactiveTintColor: '#fffc',
-    style: {
-      backgroundColor: '#1b1b1b',
-    },
-  },
+  tabBarComponent: BottomTabBarContainer,
 })
 
 const mapDispatch = dispatch => ({

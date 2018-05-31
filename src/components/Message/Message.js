@@ -8,7 +8,7 @@ import htmlparser2 from 'htmlparser2'
 import FastImage from 'react-native-fast-image'
 
 import Blockquote from './Blockquote'
-import AutoSizeImage from './AutoSizeImage'
+import Img from './Img'
 import utils from '../../utils'
 import hkgmoji from '../../hkgmoji'
 
@@ -180,7 +180,7 @@ class Message extends PureComponent {
             return <FastImage key={index} source={hkgmoji[source]} />
           }
           return (
-            <AutoSizeImage
+            <Img
               key={index}
               level={level}
               source={{ uri: `https://i.lihkg.com/540/${node.attribs.src}` }}
