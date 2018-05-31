@@ -2,6 +2,7 @@
 
 import React, { PureComponent } from 'react'
 import { View, Text, Linking } from 'react-native'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import htmlparser2 from 'htmlparser2'
 import FastImage from 'react-native-fast-image'
@@ -10,6 +11,10 @@ import Blockquote from './Blockquote'
 import AutoSizeImage from './AutoSizeImage'
 import utils from '../../utils'
 import hkgmoji from '../../hkgmoji'
+
+const mapState = state => ({
+  staticIcons: state.settings.staticIcons,
+})
 
 const BLOCK_TAGS = ['blockquote', 'div', 'pre']
 
@@ -161,16 +166,17 @@ class Message extends PureComponent {
               style={{ color: '#2574a9', textDecorationLine: 'underline' }}
               onPress={() => Linking.openURL(node.attribs.href)}
             >
-              <Text style={{ fontSize: BASE_FONT_SIZE }}>
-                {node.children[0].data.trim()}
-              </Text>
+              <Text style={{ fontSize: BASE_FONT_SIZE }}>{node.children[0].data.trim()}</Text>
             </Text>
           )
         }
 
         case 'img': {
           if (node.attribs.class === 'hkgmoji') {
-            return <FastImage key={index} source={hkgmoji[node.attribs.src]} />
+            const source = this.props.staticIcons
+              ? node.attribs.src.replace('/faces/', '/faces_png/').replace('.gif', '.png')
+              : node.attribs.src
+            return <FastImage key={index} source={hkgmoji[source]} />
           }
           return (
             <AutoSizeImage
@@ -295,4 +301,4 @@ class Message extends PureComponent {
   }
 }
 
-export default Message
+export default connect(mapState)(Message)

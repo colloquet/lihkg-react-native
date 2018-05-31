@@ -13,6 +13,7 @@ import PropTypes from 'prop-types'
 
 const mapState = state => ({
   darkMode: state.settings.darkMode,
+  staticIcons: state.settings.staticIcons,
 })
 
 const mapDispatch = dispatch => ({
@@ -27,6 +28,7 @@ class SettingsScreen extends React.Component {
 
   static propTypes = {
     darkMode: PropTypes.bool.isRequired,
+    staticIcons: PropTypes.bool.isRequired,
     clearHistory: PropTypes.func.isRequired,
     toggleSettings: PropTypes.func.isRequired,
   }
@@ -84,6 +86,7 @@ class SettingsScreen extends React.Component {
             data: [
               { name: '自動載入圖片', key: 'autoLoadImage' },
               { name: 'Youtube 預覽', key: 'ytPreview' },
+              { name: '靜態表情', key: 'staticIcons' },
             ],
           },
         ]}

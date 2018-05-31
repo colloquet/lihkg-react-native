@@ -26,7 +26,9 @@ async function init() {
 
   // eslint-disable-next-line
   for (let [index, key] of allKeys.entries()) {
+    const staticKey = key.replace('/faces/', '/faces_png/').replace('.gif', '.png')
     appendLine(`  '/${key}': require('./${key}'),`)
+    appendLine(`  '/${staticKey}': require('./${staticKey}'),`)
     console.log(`[success] [${index + 1}/${allKeys.length}] ${key}`)
   }
 
