@@ -10,7 +10,7 @@ const secondPerYear = secondPerDay * 365
 
 export default {
   getGenderColor(user) {
-    if (+user.level === 999) {
+    if (Number(user.level) === 999) {
       return '#f1c40f'
     }
     return user.gender === 'M' ? '#3498db' : '#e74c3c'
@@ -35,8 +35,6 @@ export default {
     return `${Math.round(elapsed / secondPerYear)} 年前`
   },
   parseMessage(html) {
-    // parsedMessage = parsedMessage.replace(/src="\/assets/g, 'src="https://lihkg.com/assets')
-
     return autoLinker.link(html)
   },
 }

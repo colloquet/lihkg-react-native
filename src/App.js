@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 import PropTypes from 'prop-types'
 
+import { Colors } from './constants'
 import CategoryNavigator from './navigators/CategoryNavigator'
 import SettingsNavigator from './navigators/SettingsNavigator'
 
@@ -33,8 +34,8 @@ const AppNavigator = createBottomTabNavigator(
   },
   {
     tabBarOptions: {
-      activeTintColor: '#42b983',
-      inactiveTintColor: '#fffc',
+      activeTintColor: Colors.accent,
+      inactiveTintColor: Colors.text,
       style: {
         backgroundColor: '#1b1b1b',
       },

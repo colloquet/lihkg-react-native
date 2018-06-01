@@ -18,7 +18,7 @@ class CategoryListItem extends React.PureComponent {
   render() {
     const { category } = this.props
     return (
-      <ListItem style={styles.container} onPress={this.onPress}>
+      <ListItem style={styles.listItem} onPress={this.onPress}>
         <Text style={styles.name}>{category.name}</Text>
         <Icon name="chevron-right" size={18} color="#999" />
       </ListItem>
@@ -27,7 +27,7 @@ class CategoryListItem extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  listItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

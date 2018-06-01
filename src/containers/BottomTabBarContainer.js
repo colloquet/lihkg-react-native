@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { BottomTabBar } from 'react-navigation-tabs'
 import PropTypes from 'prop-types'
 
+import { Colors } from '../constants'
+
 const mapState = state => ({
   darkMode: state.settings.darkMode,
 })
@@ -10,8 +12,8 @@ const mapState = state => ({
 function BottomTabBarContainer({ darkMode, ...props }) {
   const styleProps = darkMode
     ? {
-      activeTintColor: '#42b983',
-      inactiveTintColor: '#fffc',
+      activeTintColor: Colors.accent,
+      inactiveTintColor: Colors.text,
       style: {
         backgroundColor: '#1b1b1b',
       },

@@ -11,7 +11,7 @@ class PostItem extends React.PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     isAuthor: PropTypes.bool.isRequired,
-    onStoryModeClick: PropTypes.func.isRequired,
+    onStoryModePress: PropTypes.func.isRequired,
     isStoryModeHidden: PropTypes.bool.isRequired,
     isStoryModeActive: PropTypes.bool.isRequired,
     index: PropTypes.number.isRequired,
@@ -19,7 +19,7 @@ class PostItem extends React.PureComponent {
 
   render() {
     const {
-      post, isAuthor, onStoryModeClick, isStoryModeHidden, isStoryModeActive, index,
+      post, isAuthor, onStoryModePress, isStoryModeHidden, isStoryModeActive, index,
     } = this.props
     const icon = +post.msg_num === 1 ? 'thumbs' : 'arrow'
 
@@ -33,7 +33,7 @@ class PostItem extends React.PureComponent {
           <Text style={styles.data}>{utils.getRelativeTime(post.reply_time)}</Text>
           <TouchableOpacity
             style={{ marginLeft: 'auto', padding: 16, marginVertical: -16 }}
-            onPress={() => onStoryModeClick(post.user.user_id, index)}
+            onPress={() => onStoryModePress(post.user.user_id, index)}
           >
             <Icon name={`eye${isStoryModeActive ? '-off' : ''}`} color="#aaa" />
           </TouchableOpacity>

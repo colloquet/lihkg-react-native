@@ -95,7 +95,7 @@ class ThreadScreen extends React.PureComponent {
           isAuthor={+this.props.thread.user_id === +post.user.user_id}
           isStoryModeHidden={storyModeHidden}
           isStoryModeActive={storyModeUserId > -1}
-          onStoryModeClick={this.toggleStoryMode}
+          onStoryModePress={this.toggleStoryMode}
           index={index}
         />
       </React.Fragment>

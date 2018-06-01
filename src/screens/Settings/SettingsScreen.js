@@ -1,19 +1,13 @@
 import React from 'react'
-import {
-  Text,
-  Switch,
-  TouchableHighlight,
-  StyleSheet,
-  ActivityIndicator,
-  SectionList,
-  Alert,
-} from 'react-native'
+import { Text, Switch, StyleSheet, SectionList, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import { Colors } from '../../constants'
 import ListItem from '../../components/ListItem'
 import ListSeparator from '../../components/ListSeparator'
 import ListSectionHeader from '../../components/ListSectionHeader'
+import Button from '../../components/Button'
 
 const mapState = state => ({
   settings: state.settings,
@@ -50,8 +44,7 @@ class SettingsScreen extends React.Component {
     <ListItem key={index} style={styles.listItem}>
       <Text style={styles.settingName}>{item.name}</Text>
       <Switch
-        // tintColor="#42b983"
-        onTintColor="#42b983"
+        onTintColor={Colors.accent}
         value={this.props.settings[item.key]}
         onValueChange={() => this.props.toggleSettings(item.key)}
         style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
@@ -90,17 +83,7 @@ class SettingsScreen extends React.Component {
         keyExtractor={item => item.key}
         ItemSeparatorComponent={this.renderSeparator}
         ListFooterComponent={() => (
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.clearHistory}
-            underlayColor="#339669"
-          >
-            {isLoading ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>清除記錄</Text>
-            )}
-          </TouchableHighlight>
+          <Button text="清除記錄" isLoading={isLoading} onPress={this.clearHistory} />
         )}
       />
     )
@@ -112,25 +95,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
     paddingVertical: 8,
   },
   settingName: {
     fontSize: 16,
     color: '#fffc',
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-    margin: 8,
-    backgroundColor: '#42b983',
-    borderRadius: 8,
-    height: 32,
-  },
-  buttonText: {
-    fontSize: 16,
-    color: '#fff',
   },
 })
 
