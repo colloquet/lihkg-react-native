@@ -8,20 +8,17 @@ const mapState = state => ({
 })
 
 function BottomTabBarContainer({ darkMode, ...props }) {
-  const styleProps = darkMode ? {
-    activeTintColor: '#42b983',
-    inactiveTintColor: '#fffc',
-    style: {
-      backgroundColor: '#1b1b1b',
-    },
-  } : {}
+  const styleProps = darkMode
+    ? {
+      activeTintColor: '#42b983',
+      inactiveTintColor: '#fffc',
+      style: {
+        backgroundColor: '#1b1b1b',
+      },
+    }
+    : {}
 
-  return (
-    <BottomTabBar
-      {...props}
-      {...styleProps}
-    />
-  )
+  return <BottomTabBar {...props} {...styleProps} />
 }
 
 BottomTabBarContainer.propTypes = {

@@ -1,10 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { View, FlatList, ActivityIndicator, Text, StyleSheet } from 'react-native'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import get from 'lodash/get'
 
 import PostItem from '../../components/PostItem'
+import LoadingOverlay from '../../components/LoadingOverlay'
 
 const mapState = state => ({
   thread: state.thread.thread,
@@ -15,7 +16,7 @@ const mapDispatch = dispatch => ({
   clearThread: dispatch.thread.clearThread,
 })
 
-class ThreadScreen extends PureComponent {
+class ThreadScreen extends React.PureComponent {
   static navigationOptions = ({ navigation }) => {
     const title = get(navigation, 'state.params.thread.title', '載入中...')
     return {
@@ -91,9 +92,7 @@ class ThreadScreen extends PureComponent {
     const { thread } = this.props
 
     return isLoading && !thread.item_data ? (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="small" />
-      </View>
+      <LoadingOverlay />
     ) : (
       <FlatList
         style={{ backgroundColor: '#222' }}
@@ -109,7 +108,6 @@ class ThreadScreen extends PureComponent {
         initialNumToRender={25}
         maxToRenderPerBatch={25}
         onMomentumScrollBegin={() => {
-          console.log('momentum')
           this.canFetchMore = true
         }}
       />

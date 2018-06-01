@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { View, ActivityIndicator, Image, Dimensions, StyleSheet } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import PropTypes from 'prop-types'
 
 const window = Dimensions.get('window')
 
-class AutoSizeImage extends PureComponent {
+class AutoSizeImage extends React.PureComponent {
   static propTypes = {
     source: PropTypes.object.isRequired,
     level: PropTypes.number.isRequired,
@@ -40,9 +40,7 @@ class AutoSizeImage extends PureComponent {
   renderImage = () => {
     const { width, height, error } = this.state
     if (error) {
-      return (
-        <View style={styles.error} />
-      )
+      return <View style={styles.error} />
     }
 
     const sidePaddings = 16 * 2
@@ -52,20 +50,13 @@ class AutoSizeImage extends PureComponent {
     const ratio = imageWidth / width
     const imageHeight = ratio * height
     return (
-      <FastImage
-        style={{ height: imageHeight, width: imageWidth }}
-        source={this.props.source}
-      />
+      <FastImage style={{ height: imageHeight, width: imageWidth }} source={this.props.source} />
     )
   }
 
   render() {
     const { isLoading } = this.state
-    return isLoading ? (
-      <ActivityIndicator size="small" />
-    ) : (
-      this.renderImage()
-    )
+    return isLoading ? <ActivityIndicator size="small" /> : this.renderImage()
   }
 }
 

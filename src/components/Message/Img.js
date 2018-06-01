@@ -2,6 +2,7 @@ import React from 'react'
 import { TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import placeholder from '../../assets/image-placeholder.png'
 
 import AutoSizeImage from './AutoSizeImage'
 
@@ -25,13 +26,10 @@ class Img extends React.PureComponent {
     const { level, source } = this.props
 
     return showImage ? (
-      <AutoSizeImage
-        level={level}
-        source={source}
-      />
+      <AutoSizeImage level={level} source={source} />
     ) : (
       <TouchableOpacity onPress={() => this.setState({ showImage: true })}>
-        <Image style={{ width: 100, height: 100 }} source={require('../../assets/image-placeholder.png')} />
+        <Image style={{ width: 100, height: 100 }} source={placeholder} />
       </TouchableOpacity>
     )
   }

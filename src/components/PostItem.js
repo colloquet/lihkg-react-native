@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
@@ -7,7 +7,7 @@ import Message from './Message/Message'
 import Quote from './Quote'
 import utils from '../utils'
 
-class PostItem extends PureComponent {
+class PostItem extends React.PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     isAuthor: PropTypes.bool.isRequired,
@@ -19,36 +19,34 @@ class PostItem extends PureComponent {
 
     return (
       <View style={styles.container}>
-        <Fragment>
-          <View style={styles.meta}>
-            <Text style={[styles.data, isAuthor && styles.author]}>#{post.msg_num}</Text>
-            <Text style={[styles.data, styles.name, { color: utils.getGenderColor(post.user) }]}>
-              {post.user_nickname}
+        <View style={styles.meta}>
+          <Text style={[styles.data, isAuthor && styles.author]}>#{post.msg_num}</Text>
+          <Text style={[styles.data, styles.name, { color: utils.getGenderColor(post.user) }]}>
+            {post.user_nickname}
+          </Text>
+          <Text style={styles.data}>{utils.getRelativeTime(post.reply_time)}</Text>
+        </View>
+
+        {post.quote && <Quote quote={post.quote} />}
+        <Message>{post.msg}</Message>
+
+        <View style={styles.scoresContainer}>
+          <View style={styles.scores}>
+            <Icon name={`${icon}-up`} color="#aaa" />
+            <Text
+              style={[
+                styles.score,
+                {
+                  marginRight: 8,
+                },
+              ]}
+            >
+              {post.like_count}
             </Text>
-            <Text style={styles.data}>{utils.getRelativeTime(post.reply_time)}</Text>
+            <Icon name={`${icon}-down`} color="#aaa" />
+            <Text style={styles.score}>{post.dislike_count}</Text>
           </View>
-
-          { post.quote && <Quote quote={post.quote} /> }
-          <Message>{post.msg}</Message>
-
-          <View style={styles.scoresContainer}>
-            <View style={styles.scores}>
-              <Icon name={`${icon}-up`} color="#aaa" />
-              <Text
-                style={[
-                  styles.score,
-                  {
-                    marginRight: 8,
-                  },
-                ]}
-              >
-                {post.like_count}
-              </Text>
-              <Icon name={`${icon}-down`} color="#aaa" />
-              <Text style={styles.score}>{post.dislike_count}</Text>
-            </View>
-          </View>
-        </Fragment>
+        </View>
       </View>
     )
   }

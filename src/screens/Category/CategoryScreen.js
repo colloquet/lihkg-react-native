@@ -1,10 +1,12 @@
-import React, { PureComponent } from 'react'
-import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native'
+import React from 'react'
+import { View, FlatList, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import get from 'lodash/get'
 
 import ThreadListItemContainer from '../../containers/ThreadListItemContainer'
+import LoadingOverlay from '../../components/LoadingOverlay'
+import ListSeparator from '../../components/ListSeparator'
 
 const mapState = state => ({
   category: state.category.category,
@@ -18,7 +20,7 @@ const mapDispatch = dispatch => ({
   clearThreadList: dispatch.category.clearThreadList,
 })
 
-class CategoryScreen extends PureComponent {
+class CategoryScreen extends React.PureComponent {
   static navigationOptions = ({ navigation }) => {
     const title = get(navigation, 'state.params.title', '載入中...')
     return {
@@ -43,20 +45,23 @@ class CategoryScreen extends PureComponent {
 
   componentDidMount() {
     this.props.clearThreadList()
-    this.fetchThreadList(1)
+    this.fetchThreadList()
   }
 
   onRefresh = () => {
-    this.fetchThreadList(1)
+    this.fetchThreadList()
   }
 
   onLoadMore = () => {
-    if (this.props.hasMore) {
-      this.fetchThreadList(this.props.page + 1)
+    if (this.state.isLoading || !this.props.hasMore || !this.canFetchMore) {
+      return
     }
+
+    this.fetchThreadList(this.props.page + 1)
+    this.canFetchMore = false
   }
 
-  fetchThreadList = async (page) => {
+  fetchThreadList = async (page = 1) => {
     if (this.state.isLoading) {
       return
     }
@@ -68,9 +73,7 @@ class CategoryScreen extends PureComponent {
     this.setState({ isLoading: false, isRefreshing: false })
   }
 
-  renderThreadListItem = ({ item: thread }) => (
-    <ThreadListItemContainer thread={thread} />
-  )
+  renderThreadListItem = ({ item: thread }) => <ThreadListItemContainer thread={thread} />
 
   renderListFooter = () =>
     this.state.isLoading &&
@@ -80,18 +83,14 @@ class CategoryScreen extends PureComponent {
       </View>
     )
 
-  renderSeparator = () => (
-    <View style={styles.separator} />
-  )
+  renderSeparator = () => <ListSeparator style={{ marginLeft: 24 }} />
 
   render() {
     const { isLoading, isRefreshing } = this.state
     const { threadList } = this.props
 
     return isLoading && !threadList.length ? (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="small" />
-      </View>
+      <LoadingOverlay />
     ) : (
       <FlatList
         data={threadList}
@@ -104,17 +103,12 @@ class CategoryScreen extends PureComponent {
         ItemSeparatorComponent={this.renderSeparator}
         onEndReached={this.onLoadMore}
         onEndReachedThreshold={0.2}
+        onMomentumScrollBegin={() => {
+          this.canFetchMore = true
+        }}
       />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  separator: {
-    marginLeft: 24,
-    borderBottomColor: '#333',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-})
 
 export default connect(mapState, mapDispatch)(CategoryScreen)

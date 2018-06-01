@@ -1,12 +1,13 @@
-import React, { PureComponent, Fragment } from 'react'
-import { View, Text, TouchableHighlight, StyleSheet } from 'react-native'
+import React from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import utils from '../utils'
+import ListItem from './ListItem'
 
-class ThreadListItem extends PureComponent {
+class ThreadListItem extends React.PureComponent {
   static propTypes = {
     thread: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,
@@ -20,41 +21,36 @@ class ThreadListItem extends PureComponent {
     } = this.props
 
     return (
-      <TouchableHighlight underlayColor="#1d1d1d" style={styles.container} onPress={onPress}>
-        <Fragment>
-          {thread.is_hot && (
-            <Ionicons style={styles.hotIndicator} name="ios-flash" color="#f6b701" size={18} />
-          )}
-          {isRead && (
-            <View style={[styles.readIndicator, hasNewReply && styles.newReplyIndicator]} />
-          )}
+      <ListItem style={styles.container} onPress={onPress}>
+        {thread.is_hot && (
+          <Ionicons style={styles.hotIndicator} name="ios-flash" color="#f6b701" size={18} />
+        )}
+        {isRead && <View style={[styles.readIndicator, hasNewReply && styles.newReplyIndicator]} />}
 
-          <View style={styles.meta}>
-            <Text style={[styles.data, { color: utils.getGenderColor(thread.user) }]}>
-              {thread.user_nickname}
-            </Text>
-            <Text style={styles.data}>{utils.getRelativeTime(thread.last_reply_time)}</Text>
-            <Text style={styles.data}>
-              <Icon name="thumbs-up" /> {thread.like_count - thread.dislike_count}
-            </Text>
-            <Text style={styles.data}>
-              <Icon name="message-square" /> {thread.no_of_reply}
-            </Text>
+        <View style={styles.meta}>
+          <Text style={[styles.data, { color: utils.getGenderColor(thread.user) }]}>
+            {thread.user_nickname}
+          </Text>
+          <Text style={styles.data}>{utils.getRelativeTime(thread.last_reply_time)}</Text>
+          <Text style={styles.data}>
+            <Icon name="thumbs-up" /> {thread.like_count - thread.dislike_count}
+          </Text>
+          <Text style={styles.data}>
+            <Icon name="message-square" /> {thread.no_of_reply}
+          </Text>
 
-            <View style={styles.category}>
-              <Text style={styles.categoryName}>{thread.category.name}</Text>
-            </View>
+          <View style={styles.category}>
+            <Text style={styles.categoryName}>{thread.category.name}</Text>
           </View>
-          <Text style={styles.title}>{thread.title}</Text>
-        </Fragment>
-      </TouchableHighlight>
+        </View>
+        <Text style={styles.title}>{thread.title}</Text>
+      </ListItem>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
     paddingLeft: 24,
   },
   meta: {

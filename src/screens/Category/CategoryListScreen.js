@@ -1,9 +1,12 @@
 import React from 'react'
-import { View, Text, SectionList, ActivityIndicator, StyleSheet } from 'react-native'
+import { SectionList } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import CategoryListItem from '../../components/CategoryListItem'
+import LoadingOverlay from '../../components/LoadingOverlay'
+import ListSeparator from '../../components/ListSeparator'
+import ListSectionHeader from '../../components/ListSectionHeader'
 
 const mapState = state => ({
   categoryList: state.app.categoryList,
@@ -38,16 +41,9 @@ class CategoryListScreen extends React.Component {
     />
   )
 
-  renderSectionHeader = ({ section: { name } }) =>
-    name && (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{name}</Text>
-      </View>
-    )
+  renderSectionHeader = ({ section: { name } }) => name && <ListSectionHeader name={name} />
 
-  renderSeparator = () => (
-    <View style={styles.separator} />
-  )
+  renderSeparator = () => <ListSeparator />
 
   render() {
     const { categoryList } = this.props
@@ -61,29 +57,9 @@ class CategoryListScreen extends React.Component {
         ItemSeparatorComponent={this.renderSeparator}
       />
     ) : (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="small" />
-      </View>
+      <LoadingOverlay />
     )
   }
 }
-
-const styles = StyleSheet.create({
-  section: {
-    backgroundColor: '#2b2b2b',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  sectionName: {
-    fontWeight: 'bold',
-    fontSize: 12,
-    color: '#fffc',
-  },
-  separator: {
-    marginLeft: 16,
-    borderBottomColor: '#333',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-})
 
 export default connect(mapState, mapDispatch)(CategoryListScreen)

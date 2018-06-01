@@ -18,11 +18,10 @@ react-native run-ios
 react-native run-android
 ```
 
-## Todo
+## Todo (Priority high to low)
 
-- Settings tab
+- Android support
 - Toggle dark mode
-- 熱門 indicator
 - F5 in thread
 - Jump to page
 - Read history

@@ -1,15 +1,19 @@
 import React from 'react'
 import {
-  View,
   Text,
   Switch,
   TouchableHighlight,
   StyleSheet,
   ActivityIndicator,
   SectionList,
+  Alert,
 } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+import ListItem from '../../components/ListItem'
+import ListSeparator from '../../components/ListSeparator'
+import ListSectionHeader from '../../components/ListSectionHeader'
 
 const mapState = state => ({
   settings: state.settings,
@@ -39,11 +43,11 @@ class SettingsScreen extends React.Component {
     this.setState({ isLoading: true })
     await this.props.clearHistory()
     this.setState({ isLoading: false })
-    alert('成功清除記錄')
+    Alert.alert('成功清除記錄')
   }
 
   renderSettingsItem = ({ item, index }) => (
-    <View key={index} style={styles.listItem}>
+    <ListItem key={index} style={styles.listItem}>
       <Text style={styles.settingName}>{item.name}</Text>
       <Switch
         // tintColor="#42b983"
@@ -52,17 +56,12 @@ class SettingsScreen extends React.Component {
         onValueChange={() => this.props.toggleSettings(item.key)}
         style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
       />
-    </View>
+    </ListItem>
   )
 
-  renderSectionHeader = ({ section: { name } }) =>
-    name && (
-      <View style={styles.section}>
-        <Text style={styles.sectionName}>{name}</Text>
-      </View>
-    )
+  renderSectionHeader = ({ section: { name } }) => name && <ListSectionHeader name={name} />
 
-  renderSeparator = () => <View style={styles.separator} />
+  renderSeparator = () => <ListSeparator />
 
   render() {
     const { isLoading } = this.state
@@ -73,12 +72,12 @@ class SettingsScreen extends React.Component {
         renderItem={this.renderSettingsItem}
         renderSectionHeader={this.renderSectionHeader}
         sections={[
-          {
-            name: '外觀',
-            data: [
-              { name: '夜間模式', key: 'darkMode' },
-            ],
-          },
+          // {
+          //   name: '外觀',
+          //   data: [
+          //     { name: '夜間模式', key: 'darkMode' },
+          //   ],
+          // },
           {
             name: '內文',
             data: [
@@ -132,21 +131,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     color: '#fff',
-  },
-  section: {
-    backgroundColor: '#2b2b2b',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  sectionName: {
-    fontWeight: 'bold',
-    fontSize: 12,
-    color: '#fffc',
-  },
-  separator: {
-    marginLeft: 16,
-    borderBottomColor: '#333',
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 })
 

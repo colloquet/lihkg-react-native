@@ -8,26 +8,39 @@ import PropTypes from 'prop-types'
 import CategoryNavigator from './navigators/CategoryNavigator'
 import SettingsNavigator from './navigators/SettingsNavigator'
 
-import BottomTabBarContainer from './containers/BottomTabBarContainer'
+// import BottomTabBarContainer from './containers/BottomTabBarContainer'
 
-const AppNavigator = createBottomTabNavigator({
-  Home: {
-    screen: CategoryNavigator,
-    navigationOptions: {
-      tabBarLabel: '主頁',
-      tabBarIcon: ({ tintColor }) => <Icon name="ios-paper-outline" size={25} color={tintColor} />,
+const AppNavigator = createBottomTabNavigator(
+  {
+    Home: {
+      screen: CategoryNavigator,
+      navigationOptions: {
+        tabBarLabel: '主頁',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-paper-outline" size={25} color={tintColor} />
+        ),
+      },
+    },
+    Settings: {
+      screen: SettingsNavigator,
+      navigationOptions: {
+        tabBarLabel: '設定',
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-settings-outline" size={25} color={tintColor} />
+        ),
+      },
     },
   },
-  Settings: {
-    screen: SettingsNavigator,
-    navigationOptions: {
-      tabBarLabel: '設定',
-      tabBarIcon: ({ tintColor }) => <Icon name="ios-settings-outline" size={25} color={tintColor} />,
+  {
+    tabBarOptions: {
+      activeTintColor: '#42b983',
+      inactiveTintColor: '#fffc',
+      style: {
+        backgroundColor: '#1b1b1b',
+      },
     },
   },
-}, {
-  tabBarComponent: BottomTabBarContainer,
-})
+)
 
 const mapDispatch = dispatch => ({
   applyHistory: dispatch.app.applyHistory,
@@ -44,9 +57,7 @@ class App extends React.Component {
   }
 
   render() {
-    return (
-      <AppNavigator />
-    )
+    return <AppNavigator />
   }
 }
 

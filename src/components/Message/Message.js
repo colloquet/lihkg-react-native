@@ -1,16 +1,16 @@
 /* eslint react/no-array-index-key: 0 */
+/* eslint no-param-reassign: 0 */
 
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { View, Text, Linking } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import htmlparser2 from 'htmlparser2'
-import FastImage from 'react-native-fast-image'
 
 import Blockquote from './Blockquote'
 import Img from './Img'
+import Icon from './Icon'
 import utils from '../../utils'
-import hkgmoji from '../../hkgmoji'
 
 const mapState = state => ({
   staticIcons: state.settings.staticIcons,
@@ -54,7 +54,7 @@ const textAlignMap = {
   'text-align: right;': 'right',
 }
 
-class Message extends PureComponent {
+class Message extends React.PureComponent {
   static propTypes = {
     children: PropTypes.string.isRequired,
     level: PropTypes.number,
@@ -174,10 +174,7 @@ class Message extends PureComponent {
 
         case 'img': {
           if (node.attribs.class === 'hkgmoji') {
-            const source = this.props.staticIcons
-              ? node.attribs.src.replace('/faces/', '/faces_png/').replace('.gif', '.png')
-              : node.attribs.src
-            return <FastImage key={index} source={hkgmoji[source]} />
+            return <Icon key={index} src={node.attribs.src} staticIcons={this.props.staticIcons} />
           }
           return (
             <Img

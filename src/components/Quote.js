@@ -17,9 +17,7 @@ class Quote extends React.PureComponent {
   render() {
     const { quote, level } = this.props
 
-    const innerQuote = quote.quote && (
-      <Quote quote={quote.quote} level={level + 1} />
-    )
+    const innerQuote = quote.quote && <Quote quote={quote.quote} level={level + 1} />
 
     return (
       <Blockquote>
