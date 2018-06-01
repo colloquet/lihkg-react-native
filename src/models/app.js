@@ -1,33 +1,14 @@
 import API from '../api'
-import asyncStorage from '../asyncStorage'
 
 export default {
   state: {
     categoryList: [],
-    history: {},
   },
   reducers: {
     receiveCategoryList(state, categoryList) {
       return {
         ...state,
         categoryList,
-      }
-    },
-    updateHistory(state, data) {
-      return {
-        ...state,
-        history: {
-          ...state.history,
-          [data.threadId]: {
-            ...data,
-          },
-        },
-      }
-    },
-    replaceHistory(state, history) {
-      return {
-        ...state,
-        history,
       }
     },
   },
@@ -42,19 +23,6 @@ export default {
       } catch (err) {
         console.log(err)
       }
-    },
-    syncHistory(payload, rootState) {
-      asyncStorage.set('history', rootState.app.history)
-    },
-    async applyHistory() {
-      const history = await asyncStorage.get('history')
-      if (history) {
-        this.replaceHistory(history)
-      }
-    },
-    async clearHistory() {
-      this.replaceHistory({})
-      await asyncStorage.set('history', {})
     },
   },
 }

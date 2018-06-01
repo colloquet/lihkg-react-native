@@ -1,9 +1,7 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { connect } from 'react-redux'
 import { createBottomTabNavigator } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
-import PropTypes from 'prop-types'
 
 import { Colors } from './constants'
 import CategoryNavigator from './navigators/CategoryNavigator'
@@ -43,18 +41,9 @@ const AppNavigator = createBottomTabNavigator(
   },
 )
 
-const mapDispatch = dispatch => ({
-  applyHistory: dispatch.app.applyHistory,
-})
-
 class App extends React.Component {
-  static propTypes = {
-    applyHistory: PropTypes.func.isRequired,
-  }
-
   componentDidMount() {
     StatusBar.setBarStyle('light-content')
-    this.props.applyHistory()
   }
 
   render() {
@@ -62,4 +51,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, mapDispatch)(App)
+export default App

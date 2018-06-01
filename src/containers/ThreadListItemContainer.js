@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import ThreadListItem from '../components/ThreadListItem'
 
 const mapState = state => ({
-  history: state.app.history,
+  history: state.settings.history,
 })
 
 class ThreadListItemContainer extends React.Component {

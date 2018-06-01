@@ -15,7 +15,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
   toggleSettings: dispatch.settings.toggleSettings,
-  clearHistory: dispatch.app.clearHistory,
+  replaceHistory: dispatch.settings.replaceHistory,
 })
 
 class SettingsScreen extends React.Component {
@@ -25,18 +25,12 @@ class SettingsScreen extends React.Component {
 
   static propTypes = {
     settings: PropTypes.object.isRequired,
-    clearHistory: PropTypes.func.isRequired,
+    replaceHistory: PropTypes.func.isRequired,
     toggleSettings: PropTypes.func.isRequired,
   }
 
-  state = {
-    isLoading: false,
-  }
-
-  clearHistory = async () => {
-    this.setState({ isLoading: true })
-    await this.props.clearHistory()
-    this.setState({ isLoading: false })
+  clearHistory = () => {
+    this.props.replaceHistory({})
     Alert.alert('成功清除記錄')
   }
 
@@ -57,8 +51,6 @@ class SettingsScreen extends React.Component {
   renderSeparator = () => <ListSeparator />
 
   render() {
-    const { isLoading } = this.state
-
     return (
       <SectionList
         style={{ flex: 1 }}
@@ -83,7 +75,7 @@ class SettingsScreen extends React.Component {
         keyExtractor={item => item.key}
         ItemSeparatorComponent={this.renderSeparator}
         ListFooterComponent={() => (
-          <Button text="清除記錄" isLoading={isLoading} onPress={this.clearHistory} />
+          <Button text="清除記錄" onPress={this.clearHistory} />
         )}
       />
     )
