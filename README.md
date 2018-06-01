@@ -32,7 +32,9 @@ react-native run-android
 - Android support
 - light / white mode
 - F5 in thread
-- Jump to page
+- Page switcher
+- Youtube preview
+- Change font size
 - Read history
 - Story mode
 - Image mode
