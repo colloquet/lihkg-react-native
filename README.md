@@ -2,6 +2,8 @@
 
 > LIHKG mobile client built with React Native
 
+![LIHKG RN](https://img.eservice-hk.net/upload/2018/06/01/130656_b480a3f50320bb9bb4c0997678c5d9c3.gif "LIHKG React Native")
+
 ## Build Setup
 
 ``` bash
@@ -18,10 +20,17 @@ react-native run-ios
 react-native run-android
 ```
 
+## Update to latest icon set
+
+1. download latest hkgmoji.json from lihkg.com
+2. Place at the root of project, same as `get-icon-path.js`
+3. Run `node get-icon-path.js` will generate a new `hkgmoji.js`
+4. Replace the one in `/src`
+
 ## Todo (Priority high to low)
 
 - Android support
-- Toggle dark mode
+- light / white mode
 - F5 in thread
 - Jump to page
 - Read history
