@@ -22,7 +22,7 @@ react-native run-android
 
 ## Update to latest icon set
 
-1. download latest hkgmoji.json from lihkg.com
+1. Download latest hkgmoji.json from lihkg.com
 2. Place at the root of project, same as `get-icon-path.js`
 3. Run `node get-icon-path.js` will generate a new `hkgmoji.js`
 4. Replace the one in `/src`
@@ -36,7 +36,6 @@ react-native run-android
 - Youtube preview
 - Change font size
 - Read history
-- Story mode
 - Image mode
 - Jump to last read position
 - Sub category
