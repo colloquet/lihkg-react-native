@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 
+import { Colors } from '../../constants'
 import PostItem from '../../components/PostItem'
 import LoadingOverlay from '../../components/LoadingOverlay'
 
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   pageNumber: {
-    color: '#fffc',
+    color: Colors.text,
   },
 })
 

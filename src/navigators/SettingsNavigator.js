@@ -1,5 +1,6 @@
 import { createStackNavigator } from 'react-navigation'
 
+import { Colors } from '../constants'
 import SettingsScreen from '../screens/Settings/SettingsScreen'
 
 const SettingsNavigator = createStackNavigator(
@@ -13,7 +14,7 @@ const SettingsNavigator = createStackNavigator(
       backgroundColor: '#202020',
     },
     navigationOptions: {
-      headerTintColor: '#fffc',
+      headerTintColor: Colors.text,
       headerStyle: {
         backgroundColor: '#1b1b1b',
         borderBottomWidth: 0,

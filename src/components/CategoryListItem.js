@@ -3,6 +3,7 @@ import { Text, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import PropTypes from 'prop-types'
 
+import { Colors } from '../constants'
 import ListItem from './ListItem'
 
 class CategoryListItem extends React.PureComponent {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    color: '#fffc',
+    color: Colors.text,
   },
 })
 

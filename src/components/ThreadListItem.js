@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
+import { Colors } from '../constants'
 import utils from '../utils'
 import ListItem from './ListItem'
 
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     lineHeight: 16 * 1.2,
-    color: '#fffc',
+    color: Colors.text,
   },
   category: {
     backgroundColor: '#333',

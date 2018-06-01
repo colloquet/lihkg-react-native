@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import htmlparser2 from 'htmlparser2'
 
+import { Colors } from '../../constants'
 import Blockquote from './Blockquote'
 import Img from './Img'
 import Icon from './Icon'
@@ -81,7 +82,7 @@ class Message extends React.PureComponent {
         }
 
         return (
-          <Text key={index} style={{ fontSize: BASE_FONT_SIZE, color: '#fffc' }}>
+          <Text key={index} style={{ fontSize: BASE_FONT_SIZE, color: Colors.text }}>
             {node.data.trim()}
           </Text>
         )

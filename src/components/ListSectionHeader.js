@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 
+import { Colors } from '../constants'
+
 function ListSectionHeader({ name, style }) {
   return (
     <View style={[styles.section, style]}>
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   sectionName: {
     fontWeight: 'bold',
     fontSize: 12,
-    color: '#fffc',
+    color: Colors.text,
   },
 })
 
