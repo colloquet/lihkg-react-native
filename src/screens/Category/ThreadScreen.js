@@ -34,6 +34,7 @@ class ThreadScreen extends React.PureComponent {
   state = {
     page: get(this.props.navigation, 'state.params.page', 1),
     isLoading: false,
+    storyModeUserId: -1,
   }
 
   componentDidMount() {
@@ -66,16 +67,37 @@ class ThreadScreen extends React.PureComponent {
     this.setState({ isLoading: false, page })
   }
 
-  renderPostItem = ({ item: post }) => {
-    const index = post.msg_num - 1
+  toggleStoryMode = (userId, index) => {
+    this.setState(
+      { storyModeUserId: this.state.storyModeUserId === -1 ? Number(userId) : -1 },
+      () => {
+        setTimeout(() => {
+          this.list.scrollToIndex({ index })
+        }, 500)
+      },
+    )
+  }
+
+  renderPostItem = ({ item: post, index }) => {
+    const { storyModeUserId } = this.state
+    const msgNum = post.msg_num - 1
+    const storyModeHidden =
+      storyModeUserId === -1 ? false : storyModeUserId !== Number(post.user.user_id)
     return (
       <React.Fragment>
-        {index % 25 === 0 && (
+        {msgNum % 25 === 0 && (
           <View style={styles.pageNumberContainer}>
-            <Text style={styles.pageNumber}>第 {(index / 25) + 1} 頁</Text>
+            <Text style={styles.pageNumber}>第 {msgNum / 25 + 1} 頁</Text>
           </View>
         )}
-        <PostItem post={post} isAuthor={+this.props.thread.user_id === +post.user.user_id} />
+        <PostItem
+          post={post}
+          isAuthor={+this.props.thread.user_id === +post.user.user_id}
+          isStoryModeHidden={storyModeHidden}
+          isStoryModeActive={storyModeUserId > -1}
+          onStoryModeClick={this.toggleStoryMode}
+          index={index}
+        />
       </React.Fragment>
     )
   }
@@ -95,6 +117,9 @@ class ThreadScreen extends React.PureComponent {
       <LoadingOverlay />
     ) : (
       <FlatList
+        ref={(ref) => {
+          this.list = ref
+        }}
         style={{ backgroundColor: '#222' }}
         data={thread.item_data}
         renderItem={this.renderPostItem}

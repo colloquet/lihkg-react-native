@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/Feather'
 
@@ -11,40 +11,53 @@ class PostItem extends React.PureComponent {
   static propTypes = {
     post: PropTypes.object.isRequired,
     isAuthor: PropTypes.bool.isRequired,
+    onStoryModeClick: PropTypes.func.isRequired,
+    isStoryModeHidden: PropTypes.bool.isRequired,
+    isStoryModeActive: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
   }
 
   render() {
-    const { post, isAuthor } = this.props
+    const {
+      post, isAuthor, onStoryModeClick, isStoryModeHidden, isStoryModeActive, index,
+    } = this.props
     const icon = +post.msg_num === 1 ? 'thumbs' : 'arrow'
 
     return (
       <View style={styles.container}>
-        <View style={styles.meta}>
+        <View style={[styles.meta, isStoryModeHidden && { marginBottom: 0 }]}>
           <Text style={[styles.data, isAuthor && styles.author]}>#{post.msg_num}</Text>
           <Text style={[styles.data, styles.name, { color: utils.getGenderColor(post.user) }]}>
             {post.user_nickname}
           </Text>
           <Text style={styles.data}>{utils.getRelativeTime(post.reply_time)}</Text>
+          <TouchableOpacity
+            style={{ marginLeft: 'auto', padding: 16, marginVertical: -16 }}
+            onPress={() => onStoryModeClick(post.user.user_id, index)}
+          >
+            <Icon name={`eye${isStoryModeActive ? '-off' : ''}`} color="#aaa" />
+          </TouchableOpacity>
         </View>
 
-        {post.quote && <Quote quote={post.quote} />}
-        <Message>{post.msg}</Message>
-
-        <View style={styles.scoresContainer}>
-          <View style={styles.scores}>
-            <Icon name={`${icon}-up`} color="#aaa" />
-            <Text
-              style={[
-                styles.score,
-                {
-                  marginRight: 8,
-                },
-              ]}
-            >
-              {post.like_count}
-            </Text>
-            <Icon name={`${icon}-down`} color="#aaa" />
-            <Text style={styles.score}>{post.dislike_count}</Text>
+        <View style={[isStoryModeHidden && styles.hidden]}>
+          {post.quote && <Quote quote={post.quote} />}
+          <Message>{post.msg}</Message>
+          <View style={styles.scoresContainer}>
+            <View style={styles.scores}>
+              <Icon name={`${icon}-up`} color="#aaa" />
+              <Text
+                style={[
+                  styles.score,
+                  {
+                    marginRight: 8,
+                  },
+                ]}
+              >
+                {post.like_count}
+              </Text>
+              <Icon name={`${icon}-down`} color="#aaa" />
+              <Text style={styles.score}>{post.dislike_count}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -93,6 +106,10 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: 4,
     color: '#aaa',
+  },
+  hidden: {
+    height: 0,
+    overflow: 'hidden',
   },
 })
 
