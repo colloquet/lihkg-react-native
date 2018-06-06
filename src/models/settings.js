@@ -3,6 +3,7 @@ export default {
     darkMode: false,
     staticIcons: false,
     autoLoadImage: true,
+    ytPreview: true,
     history: {},
   },
   reducers: {

@@ -1,4 +1,4 @@
-import uniqBy from 'lodash/uniqBy'
+import unionBy from 'lodash/unionBy'
 import get from 'lodash/get'
 
 import API from '../api'
@@ -26,7 +26,7 @@ export default {
     appendThreadList(state, threadList) {
       return {
         ...state,
-        threadList: uniqBy(state.threadList.concat(threadList), 'thread_id'),
+        threadList: unionBy(state.threadList, threadList, 'thread_id'),
       }
     },
     updatePage(state, page) {

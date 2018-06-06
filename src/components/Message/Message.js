@@ -11,10 +11,12 @@ import { Colors } from '../../constants'
 import Blockquote from './Blockquote'
 import Img from './Img'
 import Icon from './Icon'
+import Youtube from './Youtube'
 import utils from '../../utils'
 
 const mapState = state => ({
   staticIcons: state.settings.staticIcons,
+  ytPreview: state.settings.ytPreview,
 })
 
 const BLOCK_TAGS = ['blockquote', 'div', 'pre']
@@ -60,6 +62,7 @@ class Message extends React.PureComponent {
     children: PropTypes.string.isRequired,
     level: PropTypes.number,
     staticIcons: PropTypes.bool.isRequired,
+    ytPreview: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -162,14 +165,20 @@ class Message extends React.PureComponent {
         }
 
         case 'a': {
+          const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
+          const isYoutube = node.attribs.href.match(regex) ? RegExp.$1 : false
           return (
-            <Text
-              key={index}
-              style={{ color: '#2574a9', textDecorationLine: 'underline' }}
-              onPress={() => Linking.openURL(node.attribs.href)}
-            >
-              <Text style={{ fontSize: BASE_FONT_SIZE }}>{node.children[0].data.trim()}</Text>
-            </Text>
+            <View key={index}>
+              {this.props.ytPreview && isYoutube && (
+                <Youtube level={level} vID={isYoutube} />
+              )}
+              <Text
+                style={{ color: '#2574a9', textDecorationLine: 'underline' }}
+                onPress={() => Linking.openURL(node.attribs.href)}
+              >
+                <Text style={{ fontSize: BASE_FONT_SIZE }}>{node.children[0].data.trim()}</Text>
+              </Text>
+            </View>
           )
         }
 

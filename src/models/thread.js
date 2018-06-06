@@ -1,4 +1,5 @@
 import { dispatch } from '@rematch/core'
+import unionBy from 'lodash/unionBy'
 import API from '../api'
 
 export default {
@@ -11,7 +12,7 @@ export default {
         ...state,
         thread: {
           ...thread,
-          item_data: (state.thread.item_data || []).concat(thread.item_data),
+          item_data: unionBy((state.thread.item_data || []), thread.item_data, 'post_id'),
         },
       }
     },

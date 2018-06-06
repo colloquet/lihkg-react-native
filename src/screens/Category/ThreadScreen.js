@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import { Colors } from '../../constants'
 import PostItem from '../../components/PostItem'
 import LoadingOverlay from '../../components/LoadingOverlay'
+import Button from '../../components/Button'
 
 const mapState = state => ({
   thread: state.thread.thread,
@@ -80,15 +81,18 @@ class ThreadScreen extends React.PureComponent {
   }
 
   renderPostItem = ({ item: post, index }) => {
-    const { storyModeUserId } = this.state
+    const { storyModeUserId, page, isLoading } = this.state
     const msgNum = post.msg_num - 1
     const storyModeHidden =
       storyModeUserId === -1 ? false : storyModeUserId !== Number(post.user.user_id)
+    const isLastReply = Number(post.msg_num) === Number(this.props.thread.no_of_reply)
+    const threadEnded = post.msg_num + 1 > this.props.thread.max_reply
+
     return (
       <React.Fragment>
         {msgNum % 25 === 0 && (
           <View style={styles.pageNumberContainer}>
-            <Text style={styles.pageNumber}>第 {msgNum / 25 + 1} 頁</Text>
+            <Text style={styles.pageNumber}>第 {(msgNum / 25) + 1} 頁</Text>
           </View>
         )}
         <PostItem
@@ -99,6 +103,19 @@ class ThreadScreen extends React.PureComponent {
           onStoryModePress={this.toggleStoryMode}
           index={index}
         />
+        {isLastReply && (
+          threadEnded ? (
+            <View style={styles.threadEndedTextContainer}>
+              <Text style={styles.threadEndedText}>1001</Text>
+            </View>
+          ) : (
+            <Button
+              isLoading={isLoading}
+              text="F5"
+              onPress={() => this.fetchThread(page)}
+            />
+          )
+        )}
       </React.Fragment>
     )
   }
@@ -150,6 +167,18 @@ const styles = StyleSheet.create({
   pageNumber: {
     color: Colors.text,
   },
+  threadEndedTextContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  threadEndedText: {
+    color: Colors.text,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 })
 
-export default connect(mapState, mapDispatch)(ThreadScreen)
+export default connect(
+  mapState,
+  mapDispatch,
+)(ThreadScreen)
