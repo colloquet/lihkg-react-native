@@ -81,16 +81,18 @@ class ThreadScreen extends React.PureComponent {
   }
 
   renderPostItem = ({ item: post, index }) => {
-    const { storyModeUserId } = this.state
+    const { storyModeUserId, page, isLoading } = this.state
     const msgNum = post.msg_num - 1
     const storyModeHidden =
       storyModeUserId === -1 ? false : storyModeUserId !== Number(post.user.user_id)
+    const isLastReply = Number(post.msg_num) === Number(this.props.thread.no_of_reply)
     const threadEnded = post.msg_num + 1 > this.props.thread.max_reply
+
     return (
       <React.Fragment>
         {msgNum % 25 === 0 && (
           <View style={styles.pageNumberContainer}>
-            <Text style={styles.pageNumber}>第 {msgNum / 25 + 1} 頁</Text>
+            <Text style={styles.pageNumber}>第 {(msgNum / 25) + 1} 頁</Text>
           </View>
         )}
         <PostItem
@@ -101,13 +103,18 @@ class ThreadScreen extends React.PureComponent {
           onStoryModePress={this.toggleStoryMode}
           index={index}
         />
-        {msgNum === this.props.thread.no_of_reply - 1 && !threadEnded && (
-          <Button isLoading={this.state.isLoading} text="F5" onPress={() => this.fetchThread(this.state.page)} />
-        )}
-        {threadEnded && (
-          <View style={styles.threadEndTextContainer}>
-            <Text style={styles.threadEndedText}>1001</Text>
-          </View>
+        {isLastReply && (
+          threadEnded ? (
+            <View style={styles.threadEndedTextContainer}>
+              <Text style={styles.threadEndedText}>1001</Text>
+            </View>
+          ) : (
+            <Button
+              isLoading={isLoading}
+              text="F5"
+              onPress={() => this.fetchThread(page)}
+            />
+          )
         )}
       </React.Fragment>
     )
@@ -127,27 +134,27 @@ class ThreadScreen extends React.PureComponent {
     return isLoading && !thread.item_data ? (
       <LoadingOverlay />
     ) : (
-        <FlatList
-          ref={(ref) => {
-            this.list = ref
-          }}
-          style={{ backgroundColor: '#222' }}
-          data={thread.item_data}
-          renderItem={this.renderPostItem}
-          extraData={this.state}
-          keyExtractor={post => post.post_id}
-          ListFooterComponent={this.renderListFooter}
-          onEndReached={this.onLoadMore}
-          onEndReachedThreshold={0.1}
-          disableVirtualization
-          removeClippedSubviews
-          initialNumToRender={25}
-          maxToRenderPerBatch={25}
-          onMomentumScrollBegin={() => {
-            this.canFetchMore = true
-          }}
-        />
-      )
+      <FlatList
+        ref={(ref) => {
+          this.list = ref
+        }}
+        style={{ backgroundColor: '#222' }}
+        data={thread.item_data}
+        renderItem={this.renderPostItem}
+        extraData={this.state}
+        keyExtractor={post => post.post_id}
+        ListFooterComponent={this.renderListFooter}
+        onEndReached={this.onLoadMore}
+        onEndReachedThreshold={0.1}
+        disableVirtualization
+        removeClippedSubviews
+        initialNumToRender={25}
+        maxToRenderPerBatch={25}
+        onMomentumScrollBegin={() => {
+          this.canFetchMore = true
+        }}
+      />
+    )
   }
 }
 
@@ -160,15 +167,18 @@ const styles = StyleSheet.create({
   pageNumber: {
     color: Colors.text,
   },
-  threadEndTextContainer: {
+  threadEndedTextContainer: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   threadEndedText: {
     color: Colors.text,
     fontSize: 16,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 })
 
-export default connect(mapState, mapDispatch)(ThreadScreen)
+export default connect(
+  mapState,
+  mapDispatch,
+)(ThreadScreen)

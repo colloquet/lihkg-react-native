@@ -16,6 +16,7 @@ import utils from '../../utils'
 
 const mapState = state => ({
   staticIcons: state.settings.staticIcons,
+  ytPreview: state.settings.ytPreview,
 })
 
 const BLOCK_TAGS = ['blockquote', 'div', 'pre']
@@ -61,6 +62,7 @@ class Message extends React.PureComponent {
     children: PropTypes.string.isRequired,
     level: PropTypes.number,
     staticIcons: PropTypes.bool.isRequired,
+    ytPreview: PropTypes.bool.isRequired,
   }
 
   static defaultProps = {
@@ -164,10 +166,10 @@ class Message extends React.PureComponent {
 
         case 'a': {
           const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
-          let isYoutube = node.attribs.href.match(regex) ? RegExp.$1 : false
+          const isYoutube = node.attribs.href.match(regex) ? RegExp.$1 : false
           return (
             <View key={index}>
-              {isYoutube && (
+              {this.props.ytPreview && isYoutube && (
                 <Youtube level={level} vID={isYoutube} />
               )}
               <Text
