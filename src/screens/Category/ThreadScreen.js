@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import { Colors } from '../../constants'
 import PostItem from '../../components/PostItem'
 import LoadingOverlay from '../../components/LoadingOverlay'
+import Button from '../../components/Button'
 
 const mapState = state => ({
   thread: state.thread.thread,
@@ -117,27 +118,6 @@ class ThreadScreen extends React.PureComponent {
     return isLoading && !thread.item_data ? (
       <LoadingOverlay />
     ) : (
-      <FlatList
-        ref={(ref) => {
-          this.list = ref
-        }}
-        style={{ backgroundColor: '#222' }}
-        data={thread.item_data}
-        renderItem={this.renderPostItem}
-        extraData={this.state}
-        keyExtractor={post => post.post_id}
-        ListFooterComponent={this.renderListFooter}
-        onEndReached={this.onLoadMore}
-        onEndReachedThreshold={0.1}
-        disableVirtualization
-        removeClippedSubviews
-        initialNumToRender={25}
-        maxToRenderPerBatch={25}
-        onMomentumScrollBegin={() => {
-          this.canFetchMore = true
-        }}
-      />
-    )
   }
 }
 
