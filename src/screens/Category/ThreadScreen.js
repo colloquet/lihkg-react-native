@@ -85,6 +85,7 @@ class ThreadScreen extends React.PureComponent {
     const msgNum = post.msg_num - 1
     const storyModeHidden =
       storyModeUserId === -1 ? false : storyModeUserId !== Number(post.user.user_id)
+    const threadEnded = post.msg_num + 1 > this.props.thread.max_reply
     return (
       <React.Fragment>
         {msgNum % 25 === 0 && (
@@ -100,6 +101,14 @@ class ThreadScreen extends React.PureComponent {
           onStoryModePress={this.toggleStoryMode}
           index={index}
         />
+        {msgNum === this.props.thread.no_of_reply - 1 && !threadEnded && (
+          <Button isLoading={this.state.isLoading} text="F5" onPress={() => this.fetchThread(this.state.page)} />
+        )}
+        {threadEnded && (
+          <View style={styles.threadEndTextContainer}>
+            <Text style={styles.threadEndedText}>1001</Text>
+          </View>
+        )}
       </React.Fragment>
     )
   }
@@ -118,6 +127,27 @@ class ThreadScreen extends React.PureComponent {
     return isLoading && !thread.item_data ? (
       <LoadingOverlay />
     ) : (
+        <FlatList
+          ref={(ref) => {
+            this.list = ref
+          }}
+          style={{ backgroundColor: '#222' }}
+          data={thread.item_data}
+          renderItem={this.renderPostItem}
+          extraData={this.state}
+          keyExtractor={post => post.post_id}
+          ListFooterComponent={this.renderListFooter}
+          onEndReached={this.onLoadMore}
+          onEndReachedThreshold={0.1}
+          disableVirtualization
+          removeClippedSubviews
+          initialNumToRender={25}
+          maxToRenderPerBatch={25}
+          onMomentumScrollBegin={() => {
+            this.canFetchMore = true
+          }}
+        />
+      )
   }
 }
 
@@ -130,6 +160,15 @@ const styles = StyleSheet.create({
   pageNumber: {
     color: Colors.text,
   },
+  threadEndTextContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  threadEndedText: {
+    color: Colors.text,
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
 })
 
 export default connect(mapState, mapDispatch)(ThreadScreen)
