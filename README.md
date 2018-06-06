@@ -31,11 +31,8 @@ react-native run-android
 
 - Android support
 - light / white mode
-- F5 in thread
 - Page switcher
-- Youtube preview
 - Change font size
-- Read history
 - Image mode
 - Jump to last read position
 - Sub category
