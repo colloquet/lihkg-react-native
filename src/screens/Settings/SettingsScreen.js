@@ -67,7 +67,7 @@ class SettingsScreen extends React.Component {
             name: '內文',
             data: [
               { name: '自動載入圖片', key: 'autoLoadImage' },
-              // { name: 'Youtube 預覽', key: 'ytPreview' },
+              { name: 'Youtube 預覽', key: 'ytPreview' },
               { name: '靜態表情', key: 'staticIcons' },
             ],
           },
