@@ -1,6 +1,6 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
-import { createBottomTabNavigator } from 'react-navigation'
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { Colors } from './constants'
@@ -9,14 +9,14 @@ import SettingsNavigator from './navigators/SettingsNavigator'
 
 // import BottomTabBarContainer from './containers/BottomTabBarContainer'
 
-const AppNavigator = createBottomTabNavigator(
+const AppNavigator = createAppContainer(createBottomTabNavigator(
   {
     Home: {
       screen: CategoryNavigator,
       navigationOptions: {
         tabBarLabel: '主頁',
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="ios-paper-outline" size={25} color={tintColor} />
+          <Icon name="ios-paper" size={25} color={tintColor} />
         ),
       },
     },
@@ -25,7 +25,7 @@ const AppNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel: '設定',
         tabBarIcon: ({ tintColor }) => (
-          <Icon name="ios-settings-outline" size={25} color={tintColor} />
+          <Icon name="ios-settings" size={25} color={tintColor} />
         ),
       },
     },
@@ -39,7 +39,7 @@ const AppNavigator = createBottomTabNavigator(
       },
     },
   },
-)
+))
 
 class App extends React.Component {
   componentDidMount() {

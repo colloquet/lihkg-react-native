@@ -38,7 +38,7 @@ class SettingsScreen extends React.Component {
     <ListItem key={index} style={styles.listItem}>
       <Text style={styles.settingName}>{item.name}</Text>
       <Switch
-        onTintColor={Colors.accent}
+        trackColor={Colors.accent}
         value={this.props.settings[item.key]}
         onValueChange={() => this.props.toggleSettings(item.key)}
         style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
@@ -67,7 +67,7 @@ class SettingsScreen extends React.Component {
             name: '內文',
             data: [
               { name: '自動載入圖片', key: 'autoLoadImage' },
-              { name: 'Youtube 預覽', key: 'ytPreview' },
+              // { name: 'Youtube 預覽', key: 'ytPreview' },
               { name: '靜態表情', key: 'staticIcons' },
             ],
           },

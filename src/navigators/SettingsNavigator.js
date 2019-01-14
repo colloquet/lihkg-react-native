@@ -13,7 +13,7 @@ const SettingsNavigator = createStackNavigator(
     cardStyle: {
       backgroundColor: '#202020',
     },
-    navigationOptions: {
+    defaultNavigationOptions: {
       headerTintColor: Colors.text,
       headerStyle: {
         backgroundColor: '#1b1b1b',

@@ -21,7 +21,7 @@ const CategoryNavigator = createStackNavigator(
     cardStyle: {
       backgroundColor: '#202020',
     },
-    navigationOptions: {
+    defaultNavigationOptions: {
       headerBackTitle: null,
       headerTintColor: Colors.text,
       headerStyle: {

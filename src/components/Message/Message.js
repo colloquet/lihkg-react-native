@@ -165,20 +165,20 @@ class Message extends React.PureComponent {
         }
 
         case 'a': {
-          const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
-          const isYoutube = node.attribs.href.match(regex) ? RegExp.$1 : false
+          // const regex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/
+          // const isYoutube = node.attribs.href.match(regex) ? RegExp.$1 : false
           return (
-            <View key={index}>
-              {this.props.ytPreview && isYoutube && (
+            <React.Fragment key={index}>
+              {/* {this.props.ytPreview && isYoutube && (
                 <Youtube level={level} vID={isYoutube} />
-              )}
+              )} */}
               <Text
                 style={{ color: '#2574a9', textDecorationLine: 'underline' }}
                 onPress={() => Linking.openURL(node.attribs.href)}
               >
                 <Text style={{ fontSize: BASE_FONT_SIZE }}>{node.children[0].data.trim()}</Text>
               </Text>
-            </View>
+            </React.Fragment>
           )
         }
 
